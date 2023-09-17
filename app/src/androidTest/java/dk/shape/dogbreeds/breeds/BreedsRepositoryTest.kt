@@ -47,7 +47,6 @@ class BreedsRepositoryTest {
     @Before
     fun setUp() {
         hiltRule.inject()
-        // Initialize MockK
         MockKAnnotations.init(
             this,
             relaxUnitFun = true
