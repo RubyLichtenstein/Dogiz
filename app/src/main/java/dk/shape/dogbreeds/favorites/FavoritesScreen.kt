@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dk.shape.dogbreeds.common.AsyncStateHandler
-import dk.shape.dogbreeds.common.capitalizeWords
+import dk.shape.domain.common.capitalizeWords
 import dk.shape.dogbreeds.images.DogImagesGrid
 
 @OptIn(ExperimentalMaterial3Api::class)

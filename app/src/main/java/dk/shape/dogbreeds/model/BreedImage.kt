@@ -1,7 +1,7 @@
 package dk.shape.dogbreeds.model
 
-import dk.shape.dogbreeds.common.capitalizeWords
-import dk.shape.dogbreeds.model.BreedItem.Companion.buildDisplayName
+import dk.shape.domain.common.capitalizeWords
+import dk.shape.domain.breeds.BreedItem.Companion.buildDisplayName
 import kotlinx.serialization.Serializable
 
 /**

@@ -25,9 +25,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dk.shape.dogbreeds.common.AsyncStateHandler
-import dk.shape.dogbreeds.common.capitalizeWords
+import dk.shape.domain.common.capitalizeWords
 import dk.shape.dogbreeds.favorites.FavoritesViewModel
-import dk.shape.dogbreeds.model.BreedItem.Companion.buildDisplayName
+import dk.shape.domain.breeds.BreedItem.Companion.buildDisplayName
 
 @Composable
 fun ImagesScreen(

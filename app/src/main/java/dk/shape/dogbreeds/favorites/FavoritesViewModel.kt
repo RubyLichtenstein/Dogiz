@@ -3,7 +3,7 @@ package dk.shape.dogbreeds.favorites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dk.shape.dogbreeds.common.AsyncState
+import dk.shape.domain.common.AsyncState
 import dk.shape.dogbreeds.model.BreedImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

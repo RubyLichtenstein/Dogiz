@@ -4,7 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import dk.shape.dogbreeds.api.BreedsApi
+import dk.shape.dogbreeds.data.images.BreedImagesApi
+import dk.shape.dogbreeds.data.breeds.BreedsDataStore
 import dk.shape.dogbreeds.di.AppModule
 import io.mockk.mockk
 
@@ -16,7 +17,7 @@ import io.mockk.mockk
 object TestBreedsModule {
 
     @Provides
-    fun provideBreedsApi(): BreedsApi = mockk()
+    fun provideBreedsApi(): BreedImagesApi = mockk()
 
     @Provides
     fun provideBreedsDataStore(): BreedsDataStore = mockk()

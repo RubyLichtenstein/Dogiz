@@ -27,10 +27,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import dk.shape.dogbreeds.common.AsyncState
+import dk.shape.domain.common.AsyncState
 import dk.shape.dogbreeds.common.AsyncStateHandler
-import dk.shape.dogbreeds.common.capitalizeWords
-import dk.shape.dogbreeds.model.BreedItem
+import dk.shape.domain.common.capitalizeWords
+import dk.shape.domain.breeds.BreedItem
 
 @Composable
 fun BreedsScreen(

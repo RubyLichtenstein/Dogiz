@@ -1,8 +1,7 @@
 package dk.shape.dogbreeds.images
 
-import dk.shape.dogbreeds.api.ApiResponse
-import dk.shape.dogbreeds.api.BreedsApi
-import dk.shape.dogbreeds.common.AsyncState
+import dk.shape.dogbreeds.data.images.BreedImagesApi
+import dk.shape.domain.common.AsyncState
 import dk.shape.dogbreeds.model.BreedImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,10 +14,11 @@ import javax.inject.Singleton
 
 @Singleton
 class ImagesRepository @Inject constructor(
-    private val dogBreedApiService: BreedsApi,
+    private val dogBreedApiService: BreedImagesApi,
     private val imagesDataStore: ImagesDataStore
 ) {
-    private val _breedImagesState = MutableStateFlow<AsyncState<List<BreedImage>>>(AsyncState.Loading)
+    private val _breedImagesState =
+        MutableStateFlow<AsyncState<List<BreedImage>>>(AsyncState.Loading)
     val breedImagesState: StateFlow<AsyncState<List<BreedImage>>> get() = _breedImagesState
 
     fun getImagesByBreed(breed: String, scope: CoroutineScope) {
@@ -36,25 +36,41 @@ class ImagesRepository @Inject constructor(
     }
 
     private suspend fun fetchRemoteAndSaveToLocal(breed: String) {
-        when (val imagesResponse = dogBreedApiService.getBreedImages(breed)) {
-            is ApiResponse.Success -> {
-                val images = imagesResponse.data.map { imageUrl ->
+        dogBreedApiService.getBreedImages(breed)
+            .onSuccess {
+                val images = it.map { imageUrl ->
                     BreedImage(imageUrl, breed)
                 }
                 imagesDataStore.save(images, breed)
                 _breedImagesState.value = AsyncState.Success(images)
-            }
-
-            is ApiResponse.Error -> {
+            }.onFailure {
                 val localImages = getImagesByBreedFromLocal(breed)
 
                 if (localImages != null) {
                     _breedImagesState.value = AsyncState.Success(localImages)
                 } else {
-                    _breedImagesState.value = AsyncState.Error(imagesResponse.message)
+                    _breedImagesState.value = AsyncState.Error(it.message ?: "Unknown error")
                 }
             }
-        }
+//        when (val imagesResponse = dogBreedApiService.getBreedImages(breed)) {
+//            is ApiResponse.Success -> {
+//                val images = imagesResponse.data.map { imageUrl ->
+//                    BreedImage(imageUrl, breed)
+//                }
+//                imagesDataStore.save(images, breed)
+//                _breedImagesState.value = AsyncState.Success(images)
+//            }
+//
+//            is ApiResponse.Error -> {
+//                val localImages = getImagesByBreedFromLocal(breed)
+//
+//                if (localImages != null) {
+//                    _breedImagesState.value = AsyncState.Success(localImages)
+//                } else {
+//                    _breedImagesState.value = AsyncState.Error(imagesResponse.message)
+//                }
+//            }
+//        }
     }
 
     private suspend fun getImagesByBreedFromLocal(breed: String): List<BreedImage>? {

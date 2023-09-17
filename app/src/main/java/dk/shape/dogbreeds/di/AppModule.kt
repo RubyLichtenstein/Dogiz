@@ -9,13 +9,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dk.shape.dogbreeds.api.BreedsApi
-import dk.shape.dogbreeds.api.MyHttpClient
-import dk.shape.dogbreeds.breeds.BreedsDataStore
-import dk.shape.dogbreeds.breeds.BreedsRepository
+import dk.shape.dogbreeds.data.images.BreedImagesApi
+import dk.shape.dogbreeds.data.MyHttpClient
+import dk.shape.dogbreeds.data.breeds.BreedsDataStore
+import dk.shape.dogbreeds.data.breeds.BreedsRemoteApi
+import dk.shape.dogbreeds.data.breeds.BreedsRepositoryImpl
 import dk.shape.dogbreeds.favorites.FavoritesRepository
 import dk.shape.dogbreeds.images.ImagesDataStore
 import dk.shape.dogbreeds.images.ImagesRepository
+import dk.shape.domain.breeds.BreedsRepository
 import javax.inject.Singleton
 
 @Module
@@ -26,7 +28,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBreedsApi(httpClient: MyHttpClient): BreedsApi = BreedsApi(httpClient)
+    fun provideBreedsApi(httpClient: MyHttpClient): BreedImagesApi = BreedImagesApi(httpClient)
+
+    @Provides
+    @Singleton
+    fun provideBreedsRemoteApi(httpClient: MyHttpClient) = BreedsRemoteApi(httpClient)
 
     @Provides
     @Singleton
@@ -59,16 +65,16 @@ object AppModule {
     @Provides
     @Singleton
     fun provideBreedsRepository(
-        dogBreedApiService: BreedsApi,
+        dogBreedApiService: BreedsRemoteApi,
         breedsDataStore: BreedsDataStore
     ): BreedsRepository {
-        return BreedsRepository(dogBreedApiService, breedsDataStore)
+        return BreedsRepositoryImpl(dogBreedApiService, breedsDataStore)
     }
 
     @Provides
     @Singleton
     fun provideBreedImagesRepository(
-        dogBreedApiService: BreedsApi,
+        dogBreedApiService: BreedImagesApi,
         imagesDataStore: ImagesDataStore
     ): ImagesRepository {
         return ImagesRepository(dogBreedApiService, imagesDataStore)
