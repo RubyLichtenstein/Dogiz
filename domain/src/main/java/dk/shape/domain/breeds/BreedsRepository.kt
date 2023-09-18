@@ -1,8 +1,8 @@
 package dk.shape.domain.breeds
 
-import dk.shape.domain.common.AsyncState
+import dk.shape.domain.common.AsyncResult
 import kotlinx.coroutines.flow.Flow
 
 interface BreedsRepository {
-    val breedsFlow: Flow<AsyncState<List<BreedInfo>>>
+    val breedsFlow: Flow<AsyncResult<List<BreedInfo>>>
 }

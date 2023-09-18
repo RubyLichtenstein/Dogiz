@@ -10,11 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dk.shape.domain.common.AsyncState
+import dk.shape.domain.common.AsyncResult
 
 @Composable
 fun <T> AsyncStateHandler(
-    asyncState: AsyncState<T>,
+    asyncResult: AsyncResult<T>,
     onError: @Composable (String) -> Unit = { message ->
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -31,9 +31,9 @@ fun <T> AsyncStateHandler(
     },
     onSuccess: @Composable (T) -> Unit
 ) {
-    when (asyncState) {
-        is AsyncState.Loading -> onLoading()
-        is AsyncState.Success -> onSuccess(asyncState.data)
-        is AsyncState.Error -> onError(asyncState.message)
+    when (asyncResult) {
+        is AsyncResult.Loading -> onLoading()
+        is AsyncResult.Success -> onSuccess(asyncResult.data)
+        is AsyncResult.Error -> onError(asyncResult.exception?.message ?: "Unknown error")
     }
 }

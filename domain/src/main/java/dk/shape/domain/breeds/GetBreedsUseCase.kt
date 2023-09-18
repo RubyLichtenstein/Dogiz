@@ -1,6 +1,6 @@
 package dk.shape.domain.breeds
 
-import dk.shape.domain.common.AsyncState
+import dk.shape.domain.common.AsyncResult
 import dk.shape.domain.common.mapSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetBreedsUseCase @Inject constructor(
     private val breedsRepository: BreedsRepository
 ) {
-    operator fun invoke(): Flow<AsyncState<List<BreedItem>>> {
+    operator fun invoke(): Flow<AsyncResult<List<BreedItem>>> {
         return breedsRepository.breedsFlow.map {
             it.mapSuccess { data -> mapInfoToItems(data) }
         }

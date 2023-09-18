@@ -1,8 +1,9 @@
 package dk.shape.dogbreeds.data.breeds
 
-import dk.shape.domain.common.AsyncState
+import dk.shape.domain.common.AsyncResult
 import dk.shape.domain.breeds.BreedInfo
 import dk.shape.domain.breeds.BreedsRepository
+import dk.shape.domain.common.asResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -15,27 +16,29 @@ class BreedsRepositoryImpl @Inject constructor(
     private val breedsDataStore: BreedsDataStore
 ) : BreedsRepository {
 
-    override val breedsFlow: Flow<AsyncState<List<BreedInfo>>> = flow {
-        // Emit loading state
-        emit(AsyncState.Loading)
-
+    override val breedsFlow: Flow<AsyncResult<List<BreedInfo>>> = flow {
         // Try fetching from local first
         val localBreeds = getBreedsFromLocal()
         if (localBreeds != null) {
-            emit(AsyncState.Success(localBreeds))
-        } else {
-            // If not available, fetch from remote
-            breedsApi.getAllBreeds()
-                .onSuccess {
-                    val breeds = BreedInfo.fromMap(it)
-                    breedsDataStore.save(breeds)
-                    emit(AsyncState.Success(breeds))
-                }
-                .onFailure {
-                    emit(AsyncState.Error(it.message ?: "Unknown error"))
-                }
+            emit(localBreeds)
         }
-    }
+
+        // Then always fetch from remote
+        try {
+            val remoteBreeds = breedsApi.getAllBreeds().getOrThrow()
+            val breeds = BreedInfo.fromMap(remoteBreeds)
+
+            if (breeds != localBreeds) {
+                // Only save and emit if they are different
+                breedsDataStore.save(breeds)
+                emit(breeds)
+            }
+        } catch (exception: Exception) {
+            if (localBreeds == null) {
+                throw exception
+            }
+        }
+    }.asResult()
 
     private suspend fun getBreedsFromLocal(): List<BreedInfo>? {
         return breedsDataStore.get.first()

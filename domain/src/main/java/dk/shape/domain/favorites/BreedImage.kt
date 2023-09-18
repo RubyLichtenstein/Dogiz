@@ -1,4 +1,4 @@
-package dk.shape.dogbreeds.model
+package dk.shape.domain.favorites
 
 import dk.shape.domain.common.capitalizeWords
 import dk.shape.domain.breeds.BreedItem.Companion.buildDisplayName

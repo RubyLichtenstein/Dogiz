@@ -14,10 +14,12 @@ import dk.shape.dogbreeds.data.MyHttpClient
 import dk.shape.dogbreeds.data.breeds.BreedsDataStore
 import dk.shape.dogbreeds.data.breeds.BreedsRemoteApi
 import dk.shape.dogbreeds.data.breeds.BreedsRepositoryImpl
-import dk.shape.dogbreeds.favorites.FavoritesRepository
-import dk.shape.dogbreeds.images.ImagesDataStore
-import dk.shape.dogbreeds.images.ImagesRepository
+import dk.shape.dogbreeds.data.favorites.FavoritesRepositoryImpl
+import dk.shape.dogbreeds.data.images.ImagesDataStore
+import dk.shape.dogbreeds.data.images.ImagesRepositoryImpl
 import dk.shape.domain.breeds.BreedsRepository
+import dk.shape.domain.favorites.FavoritesRepository
+import dk.shape.domain.images.ImagesRepository
 import javax.inject.Singleton
 
 @Module
@@ -47,7 +49,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFavoritesRepository(dataStore: DataStore<Preferences>): FavoritesRepository {
-        return FavoritesRepository(dataStore)
+        return FavoritesRepositoryImpl(dataStore)
     }
 
     @Provides
@@ -77,6 +79,6 @@ object AppModule {
         dogBreedApiService: BreedImagesApi,
         imagesDataStore: ImagesDataStore
     ): ImagesRepository {
-        return ImagesRepository(dogBreedApiService, imagesDataStore)
+        return ImagesRepositoryImpl(dogBreedApiService, imagesDataStore)
     }
 }

@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import dk.shape.domain.common.AsyncState
+import dk.shape.domain.common.AsyncResult
 import dk.shape.dogbreeds.common.AsyncStateHandler
 import dk.shape.domain.common.capitalizeWords
 import dk.shape.domain.breeds.BreedItem
@@ -53,7 +53,7 @@ fun BreedsScreen(
 
 @Composable
 fun BreedsScreen(
-    breedListState: AsyncState<List<BreedItem>>,
+    breedListState: AsyncResult<List<BreedItem>>,
     navigateToDogImages: (BreedItem) -> Unit
 ) {
     val scrollBehavior =
@@ -129,12 +129,12 @@ fun BreedsScreenPreview() {
         BreedItem.Breed("Poodle", emptyList())
     )
 
-    val mockAsyncState: AsyncState<List<BreedItem>> = AsyncState.Success(mockData)
+    val mockAsyncResult: AsyncResult<List<BreedItem>> = AsyncResult.Success(mockData)
 
     val mockNavigateToDogImages: (BreedItem) -> Unit = {}
 
     BreedsScreen(
-        breedListState = mockAsyncState,
+        breedListState = mockAsyncResult,
         navigateToDogImages = mockNavigateToDogImages
     )
 }

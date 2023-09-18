@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dk.shape.domain.breeds.GetBreedsUseCase
-import dk.shape.domain.common.AsyncState
+import dk.shape.domain.common.AsyncResult
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -18,6 +18,6 @@ class BreedsViewModel @Inject constructor(
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
-            AsyncState.Loading
+            AsyncResult.Loading
         )
 }

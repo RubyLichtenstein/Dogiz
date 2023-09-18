@@ -1,10 +1,10 @@
-package dk.shape.dogbreeds.images
+package dk.shape.dogbreeds.data.images
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import dk.shape.dogbreeds.model.BreedImage
+import dk.shape.domain.favorites.BreedImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
@@ -25,8 +25,8 @@ class ImagesDataStore @Inject constructor(
     }
 
     fun getByBreed(breed: String): Flow<List<BreedImage>?> {
-        val key = stringPreferencesKey(breed)
         return dataStore.data.map { preferences ->
+            val key = stringPreferencesKey(breed)
             preferences[key]?.let { json ->
                 Json.decodeFromString<List<BreedImage>>(json)
             }

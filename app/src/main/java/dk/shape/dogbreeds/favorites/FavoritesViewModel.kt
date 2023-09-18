@@ -3,8 +3,9 @@ package dk.shape.dogbreeds.favorites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dk.shape.domain.common.AsyncState
-import dk.shape.dogbreeds.model.BreedImage
+import dk.shape.domain.common.AsyncResult
+import dk.shape.domain.favorites.BreedImage
+import dk.shape.domain.favorites.FavoritesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +20,8 @@ class FavoritesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _favoriteImagesState =
-        MutableStateFlow<AsyncState<List<BreedImage>>>(AsyncState.Loading)
-    val favoriteImagesState: StateFlow<AsyncState<List<BreedImage>>> get() = _favoriteImagesState
+        MutableStateFlow<AsyncResult<List<BreedImage>>>(AsyncResult.Loading)
+    val favoriteImagesState: StateFlow<AsyncResult<List<BreedImage>>> get() = _favoriteImagesState
 
     init {
         viewModelScope.launch {
@@ -32,7 +33,7 @@ class FavoritesViewModel @Inject constructor(
 
     val favoriteCount: StateFlow<Int> = favoriteImagesState.map {
         when (it) {
-            is AsyncState.Success -> it.data.size
+            is AsyncResult.Success -> it.data.size
             else -> 0
         }
     }.stateIn(
@@ -43,7 +44,7 @@ class FavoritesViewModel @Inject constructor(
 
     val favoriteImages: StateFlow<List<BreedImage>> = favoriteImagesState.map {
         when (it) {
-            is AsyncState.Success -> it.data
+            is AsyncResult.Success -> it.data
             else -> emptyList()
         }
     }.stateIn(
