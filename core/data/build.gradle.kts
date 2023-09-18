@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "dk.shape.data"
+    namespace = "com.rubylichtenstein.data"
     compileSdk = 33
 
     defaultConfig {

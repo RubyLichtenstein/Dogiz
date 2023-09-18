@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "dk.shape.breeds"
+    namespace = "com.rubylichtenstein.breeds"
     compileSdk = 33
 
     defaultConfig {

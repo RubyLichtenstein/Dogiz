@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "dk.shape.images"
+    namespace = "com.rubylichtenstein.images"
     compileSdk = 33
 
     defaultConfig {

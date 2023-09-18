@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "dk.shape.favorites"
+    namespace = "com.rubylichtenstein.favorites"
     compileSdk = 33
 
     defaultConfig {

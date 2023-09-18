@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "dk.shape.dogbreeds"
+    namespace = "com.rubylichtenstein.dogbreeds"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "dk.shape.dogbreeds"
+        applicationId = "com.rubylichtenstein.dogbreeds"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
