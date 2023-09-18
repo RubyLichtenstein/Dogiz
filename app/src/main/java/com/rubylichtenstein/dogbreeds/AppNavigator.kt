@@ -23,7 +23,7 @@ import androidx.navigation.navArgument
 import com.rubylichtenstein.dogbreeds.breeds.BreedsScreen
 import com.rubylichtenstein.dogbreeds.favorites.FavoriteCountBadge
 import com.rubylichtenstein.dogbreeds.favorites.FavoritesScreen
-import com.rubylichtenstein.dogbreeds.images.ImagesScreen
+import com.rubylichtenstein.dogbreeds.ui.images.ImagesScreen
 
 sealed class Screen(val route: String) {
     data object BreedsList : Screen("breedsList")

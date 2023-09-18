@@ -1,5 +1,6 @@
-package com.rubylichtenstein.domain.breeds
+package com.rubylichtenstein.domain.breeds.data
 
+import com.rubylichtenstein.domain.breeds.data.BreedInfo
 import kotlinx.coroutines.flow.Flow
 
 interface BreedsDataSource {

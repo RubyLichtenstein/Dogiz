@@ -12,13 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteCountBadge() {
     val favoritesViewModel: FavoritesViewModel = hiltViewModel()
-    val favoriteCount by favoritesViewModel.favoriteCount.collectAsState(initial = 0)
+    val favoriteCount by favoritesViewModel.favoriteCount.collectAsStateWithLifecycle()
 
     BadgedBox(badge = {
         if (favoriteCount > 0) {

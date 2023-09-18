@@ -18,43 +18,39 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.dogbreeds.common.AsyncStateHandler
+import com.rubylichtenstein.domain.breeds.BreedEntity
 import com.rubylichtenstein.domain.common.capitalizeWords
-import com.rubylichtenstein.domain.breeds.BreedItem
 
 @Composable
 fun BreedsScreen(
     viewModel: BreedsViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val breedListState by viewModel.breedsState.collectAsState()
+    val breedListState by viewModel.breedsState.collectAsStateWithLifecycle()
 
     BreedsScreen(
         breedListState = breedListState,
         navigateToDogImages = { breedItem ->
-            val breedRoute = when (breedItem) {
-                is BreedItem.Breed -> breedItem.name
-                is BreedItem.SubBreed -> "${breedItem.parentBreed}_${breedItem.name}"
-            }
-            navController.navigate("dogImages/$breedRoute")
+            navController.navigate("dogImages/${breedItem.route}")
         }
     )
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun BreedsScreen(
-    breedListState: AsyncResult<List<BreedItem>>,
-    navigateToDogImages: (BreedItem) -> Unit
+    breedListState: AsyncResult<List<BreedEntity>>,
+    navigateToDogImages: (BreedEntity) -> Unit
 ) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
@@ -91,10 +87,10 @@ fun BreedsScreen(
 }
 
 @Composable
-fun BreedList(breeds: List<BreedItem>, onItemClick: (BreedItem) -> Unit) {
+fun BreedList(breeds: List<BreedEntity>, onItemClick: (BreedEntity) -> Unit) {
     LazyColumn {
         items(breeds) { breed ->
-            BreedListItem(breed = breed.breedName(), onClick = { onItemClick(breed) })
+            BreedListItem(breed = breed.name, onClick = { onItemClick(breed) })
             HorizontalDivider(
                 thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
@@ -117,24 +113,5 @@ fun BreedListItem(breed: String, onClick: () -> Unit) {
                 color = MaterialTheme.colorScheme.onBackground
             )
         },
-    )
-}
-
-@Composable
-@Preview(showBackground = true)
-fun BreedsScreenPreview() {
-    val mockData = listOf(
-        BreedItem.Breed("Husky", listOf(BreedItem.SubBreed("Siberian", "Husky"))),
-        BreedItem.Breed("Labrador", listOf(BreedItem.SubBreed("Chocolate", "Labrador"))),
-        BreedItem.Breed("Poodle", emptyList())
-    )
-
-    val mockAsyncResult: AsyncResult<List<BreedItem>> = AsyncResult.Success(mockData)
-
-    val mockNavigateToDogImages: (BreedItem) -> Unit = {}
-
-    BreedsScreen(
-        breedListState = mockAsyncResult,
-        navigateToDogImages = mockNavigateToDogImages
     )
 }

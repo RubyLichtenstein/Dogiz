@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.rubylichtenstein.dogbreeds.images
+package com.rubylichtenstein.dogbreeds.ui.images
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -17,17 +17,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.rubylichtenstein.dogbreeds.common.AsyncStateHandler
 import com.rubylichtenstein.domain.common.capitalizeWords
 import com.rubylichtenstein.dogbreeds.favorites.FavoritesViewModel
-import com.rubylichtenstein.domain.breeds.BreedItem.Companion.buildDisplayName
+import com.rubylichtenstein.domain.breeds.buildDisplayName
 
 @Composable
 fun ImagesScreen(
@@ -37,8 +37,7 @@ fun ImagesScreen(
 ) {
     val imagesViewModel: ImagesViewModel = hiltViewModel()
     val favoritesViewModel: FavoritesViewModel = hiltViewModel()
-    val dogImages by imagesViewModel.dogImagesState.collectAsState()
-    val favoriteImages by favoritesViewModel.favoriteImages.collectAsState(initial = listOf())
+    val dogImages by imagesViewModel.dogImagesState.collectAsStateWithLifecycle()
 
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
@@ -80,7 +79,6 @@ fun ImagesScreen(
                 DogImagesGrid(
                     images = dogImageList,
                     onToggleFavorite = { dogImage -> favoritesViewModel.toggleFavorite(dogImage) },
-                    favoriteImages = favoriteImages,
                     showNames = false
                 )
             }

@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.rubylichtenstein.domain.common.AsyncResult
-import com.rubylichtenstein.domain.favorites.BreedImage
 import com.rubylichtenstein.domain.favorites.FavoritesRepository
+import com.rubylichtenstein.domain.favorites.GetFavoriteImagesUseCase
+import com.rubylichtenstein.domain.favorites.ToggleFavoriteUseCase
+import com.rubylichtenstein.domain.images.DogImageEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,16 +18,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val favoritesRepository: FavoritesRepository
+    val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
+    val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
     private val _favoriteImagesState =
-        MutableStateFlow<AsyncResult<List<BreedImage>>>(AsyncResult.Loading)
-    val favoriteImagesState: StateFlow<AsyncResult<List<BreedImage>>> get() = _favoriteImagesState
+        MutableStateFlow<AsyncResult<List<DogImageEntity>>>(AsyncResult.Loading)
+    val favoriteImagesState: StateFlow<AsyncResult<List<DogImageEntity>>> get() = _favoriteImagesState
 
     init {
         viewModelScope.launch {
-            favoritesRepository.favoriteImagesFlow.collect { asyncState ->
+            getFavoriteImagesUseCase().collect { asyncState ->
                 _favoriteImagesState.value = asyncState
             }
         }
@@ -42,7 +45,7 @@ class FavoritesViewModel @Inject constructor(
         initialValue = 0
     )
 
-    val favoriteImages: StateFlow<List<BreedImage>> = favoriteImagesState.map {
+    val favoriteImages: StateFlow<List<DogImageEntity>> = favoriteImagesState.map {
         when (it) {
             is AsyncResult.Success -> it.data
             else -> emptyList()
@@ -53,9 +56,9 @@ class FavoritesViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    fun toggleFavorite(breedImage: BreedImage) {
+    fun toggleFavorite(breedImage: DogImageEntity) {
         viewModelScope.launch {
-            favoritesRepository.toggleFavorite(breedImage)
+            toggleFavoriteUseCase(breedImage)
         }
     }
 }

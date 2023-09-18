@@ -1,6 +1,9 @@
 package com.rubylichtenstein.domain.breeds
 
+import com.rubylichtenstein.domain.breeds.data.BreedInfo
+import com.rubylichtenstein.domain.breeds.data.BreedsRepository
 import com.rubylichtenstein.domain.common.AsyncResult
+import com.rubylichtenstein.domain.common.capitalizeWords
 import com.rubylichtenstein.domain.common.mapSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -9,7 +12,8 @@ import javax.inject.Inject
 class GetBreedsUseCase @Inject constructor(
     private val breedsRepository: BreedsRepository
 ) {
-    operator fun invoke(): Flow<AsyncResult<List<BreedItem>>> {
+
+    operator fun invoke(): Flow<AsyncResult<List<BreedEntity>>> {
         return breedsRepository.breedsFlow.map {
             it.mapSuccess { data -> mapInfoToItems(data) }
         }
@@ -17,11 +21,33 @@ class GetBreedsUseCase @Inject constructor(
 
     private fun mapInfoToItems(
         breedInfoList: List<BreedInfo>
-    ): List<BreedItem> {
-        return breedInfoList.flatMap { breedInfo ->
-            val subBreedItems =
-                breedInfo.subBreeds.map { BreedItem.SubBreed(it, breedInfo.breed) }
-            listOf(BreedItem.Breed(breedInfo.breed, subBreedItems)) + subBreedItems
+    ): List<BreedEntity> {
+        return breedInfoList.flatMap { breed ->
+            val subBreedItems = breed.subBreedsNames.map { subBreedName ->
+                BreedEntity(
+                    buildDisplayName(breed.name, subBreedName),
+                    "${breed.name}_${subBreedName}"
+                )
+            }
+
+            listOf(
+                BreedEntity(
+                    breed.name,
+                    breed.name
+                )
+            ) + subBreedItems
         }
+    }
+}
+
+//todo move
+fun buildDisplayName(breedName: String, subBreedName: String?): String {
+    val capitalizedBreed = breedName.capitalizeWords()
+    val capitalizedSubBreed = subBreedName?.capitalizeWords()
+
+    return if (capitalizedSubBreed != null) {
+        "$capitalizedBreed ($capitalizedSubBreed)"
+    } else {
+        capitalizedBreed
     }
 }

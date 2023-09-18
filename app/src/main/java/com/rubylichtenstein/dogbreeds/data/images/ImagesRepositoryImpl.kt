@@ -2,7 +2,8 @@ package com.rubylichtenstein.dogbreeds.data.images
 
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.common.asResult
-import com.rubylichtenstein.domain.favorites.BreedImage
+import com.rubylichtenstein.domain.images.DogImageData
+import com.rubylichtenstein.domain.images.DogImageDataImpl
 import com.rubylichtenstein.domain.images.ImagesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -15,7 +16,7 @@ class ImagesRepositoryImpl @Inject constructor(
     private val dogBreedApiService: BreedImagesApi,
     private val imagesDataStore: ImagesDataStore
 ) : ImagesRepository {
-    override fun getImagesByBreed(breed: String): Flow<AsyncResult<List<BreedImage>>> = flow {
+    override fun getImagesByBreed(breed: String): Flow<AsyncResult<List<DogImageData>>> = flow {
         val localImages = getImagesByBreedFromLocal(breed)
         if (localImages != null) {
             emit(localImages)
@@ -23,7 +24,7 @@ class ImagesRepositoryImpl @Inject constructor(
 
         try {
             val remoteImages = dogBreedApiService.getBreedImages(breed).getOrThrow()
-            val images = remoteImages.map { imageUrl -> BreedImage(imageUrl, breed) }
+            val images = remoteImages.map { imageUrl -> DogImageDataImpl(breed, imageUrl) }
             imagesDataStore.save(images, breed)
             emit(images)
         } catch (e: Exception) {
@@ -36,7 +37,7 @@ class ImagesRepositoryImpl @Inject constructor(
         }
     }.asResult()
 
-    private suspend fun getImagesByBreedFromLocal(breed: String): List<BreedImage>? {
+    private suspend fun getImagesByBreedFromLocal(breed: String): List<DogImageData>? {
         return imagesDataStore.getByBreed(breed).first()
     }
 }

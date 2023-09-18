@@ -1,4 +1,4 @@
-package com.rubylichtenstein.dogbreeds.images
+package com.rubylichtenstein.dogbreeds.ui.images
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -31,17 +31,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
-import com.rubylichtenstein.domain.favorites.BreedImage
+import com.rubylichtenstein.domain.images.DogImageEntity
 
 @Composable
 fun DogImagesGrid(
-    images: List<BreedImage>,
-    onToggleFavorite: (BreedImage) -> Unit,
-    favoriteImages: List<BreedImage>,
+    images: List<DogImageEntity>,
+    onToggleFavorite: (DogImageEntity) -> Unit,
     showNames: Boolean
 ) {
     LazyVerticalGrid(
@@ -54,8 +52,6 @@ fun DogImagesGrid(
             DogImageItem(
                 breedImage = dogImage,
                 onToggleFavorite = onToggleFavorite,
-                favoriteImages = favoriteImages,
-                showName = showNames // <-- Pass Parameter
             )
         }
     }
@@ -63,10 +59,8 @@ fun DogImagesGrid(
 
 @Composable
 fun DogImageItem(
-    breedImage: BreedImage,
-    onToggleFavorite: (BreedImage) -> Unit,
-    favoriteImages: List<BreedImage>,
-    showName: Boolean
+    breedImage: DogImageEntity,
+    onToggleFavorite: (DogImageEntity) -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxSize(),
@@ -90,7 +84,7 @@ fun DogImageItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = breedImage.displayName(),
+                    text = breedImage.breedName,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -99,7 +93,7 @@ fun DogImageItem(
                 )
 
                 FavoriteIconButton(
-                    isFavorite = favoriteImages.any { it.imageUrl == breedImage.imageUrl && it.breedKey == breedImage.breedKey },
+                    isFavorite = breedImage.isFavorite,
                     onToggleFavorite = { onToggleFavorite(breedImage) }
                 )
             }
@@ -109,9 +103,9 @@ fun DogImageItem(
 
 
 @Composable
-private fun DogImage(breedImage: BreedImage) {
+private fun DogImage(breedImage: DogImageEntity) {
     SubcomposeAsyncImage(
-        model = breedImage.imageUrl,
+        model = breedImage.url,
         contentDescription = null,
         modifier = Modifier
             .fillMaxSize()
@@ -169,22 +163,22 @@ fun FavoriteIconButton(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewDogImagesGrid() {
-    val mockImages = List(50) {
-        BreedImage(
-            imageUrl = "https://images.dog.ceo/breeds/shiba/shiba-9.jpg",
-            breedKey = "Shiba Inu $it"
-        )
-    }
-
-    val mockFavorites = listOf<BreedImage>()
-
-    DogImagesGrid(
-        images = mockImages,
-        onToggleFavorite = {},
-        favoriteImages = mockFavorites,
-        showNames = true
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewDogImagesGrid() {
+//    val mockImages = List(50) {
+////        DogImageEntity(
+////            breedKey = "breedKey",
+////            url = "https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg"
+////        )
+//    }
+//
+//    val mockFavorites = listOf<DogImageEntity>()
+//
+//    DogImagesGrid(
+//        images = mockImages,
+//        onToggleFavorite = {},
+//        favoriteImages = mockFavorites,
+//        showNames = true
+//    )
+//}

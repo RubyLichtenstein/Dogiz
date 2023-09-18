@@ -1,8 +1,7 @@
 package com.rubylichtenstein.dogbreeds.data.breeds
 
 import com.rubylichtenstein.domain.common.AsyncResult
-import com.rubylichtenstein.domain.breeds.BreedInfo
-import com.rubylichtenstein.domain.breeds.BreedsRepository
+import com.rubylichtenstein.domain.breeds.data.BreedsRepository
 import com.rubylichtenstein.domain.common.asResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -16,7 +15,7 @@ class BreedsRepositoryImpl @Inject constructor(
     private val breedsDataStore: BreedsDataStore
 ) : BreedsRepository {
 
-    override val breedsFlow: Flow<AsyncResult<List<BreedInfo>>> = flow {
+    override val breedsFlow: Flow<AsyncResult<List<BreedInfoImpl>>> = flow {
         // Try fetching from local first
         val localBreeds = getBreedsFromLocal()
         if (localBreeds != null) {
@@ -26,7 +25,7 @@ class BreedsRepositoryImpl @Inject constructor(
         // Then always fetch from remote
         try {
             val remoteBreeds = breedsApi.getAllBreeds().getOrThrow()
-            val breeds = BreedInfo.fromMap(remoteBreeds)
+            val breeds = BreedInfoImpl.fromMap(remoteBreeds)
 
             if (breeds != localBreeds) {
                 // Only save and emit if they are different
@@ -40,7 +39,7 @@ class BreedsRepositoryImpl @Inject constructor(
         }
     }.asResult()
 
-    private suspend fun getBreedsFromLocal(): List<BreedInfo>? {
+    private suspend fun getBreedsFromLocal(): List<BreedInfoImpl>? {
         return breedsDataStore.get.first()
     }
 }

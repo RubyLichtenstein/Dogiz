@@ -2,7 +2,7 @@ package com.rubylichtenstein.dogbreeds.data.breeds
 
 import com.rubylichtenstein.dogbreeds.data.MyHttpClient
 import com.rubylichtenstein.dogbreeds.data.images.BASE_URL
-import com.rubylichtenstein.domain.breeds.BreedsApiSource
+import com.rubylichtenstein.domain.breeds.data.BreedsApiSource
 import io.ktor.client.request.get
 import javax.inject.Inject
 

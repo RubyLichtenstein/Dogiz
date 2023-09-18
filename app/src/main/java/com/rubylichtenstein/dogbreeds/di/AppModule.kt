@@ -17,7 +17,7 @@ import com.rubylichtenstein.dogbreeds.data.breeds.BreedsRepositoryImpl
 import com.rubylichtenstein.dogbreeds.data.favorites.FavoritesRepositoryImpl
 import com.rubylichtenstein.dogbreeds.data.images.ImagesDataStore
 import com.rubylichtenstein.dogbreeds.data.images.ImagesRepositoryImpl
-import com.rubylichtenstein.domain.breeds.BreedsRepository
+import com.rubylichtenstein.domain.breeds.data.BreedsRepository
 import com.rubylichtenstein.domain.favorites.FavoritesRepository
 import com.rubylichtenstein.domain.images.ImagesRepository
 import javax.inject.Singleton

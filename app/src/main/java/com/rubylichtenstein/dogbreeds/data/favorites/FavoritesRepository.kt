@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.common.asResult
-import com.rubylichtenstein.domain.favorites.BreedImage
 import com.rubylichtenstein.domain.favorites.FavoritesRepository
+import com.rubylichtenstein.domain.images.DogImageData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
@@ -22,24 +22,24 @@ class FavoritesRepositoryImpl @Inject constructor(
 
     private val favoriteImagesKey = stringPreferencesKey("favorite_images")
 
-    override val favoriteImagesFlow: Flow<AsyncResult<List<BreedImage>>> =
+    override val favoriteImagesFlow: Flow<AsyncResult<List<DogImageData>>> =
         dataStore.data.map { preferences ->
             val json = preferences[favoriteImagesKey] ?: ""
             if (json.isEmpty()) {
                 emptyList()
             } else {
-                val decodedList = Json.decodeFromString<List<BreedImage>>(json)
+                val decodedList = Json.decodeFromString<List<DogImageData>>(json)
                 decodedList
             }
         }.asResult()
 
-    override suspend fun toggleFavorite(breedImage: BreedImage): Result<Unit> = runCatching {
+    override suspend fun toggleFavorite(breedImage: DogImageData): Result<Unit> = runCatching {
         dataStore.edit { preferences ->
             val json = preferences[favoriteImagesKey] ?: ""
             val currentFavorites = if (json.isEmpty()) {
                 mutableListOf()
             } else {
-                Json.decodeFromString<MutableList<BreedImage>>(json)
+                Json.decodeFromString<MutableList<DogImageData>>(json)
             }
 
             if (currentFavorites.contains(breedImage)) {
