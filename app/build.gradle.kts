@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
-//    id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.kotlin.plugin.serialization")
+//    id("com.google.devtools.ksp")
 }
 
 android {
@@ -106,6 +106,11 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.0-alpha07")
 
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
+
+    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+
+    kapt("androidx.room:room-compiler:2.5.2")
 
     testImplementation("io.mockk:mockk:${mockkVersion}")
 

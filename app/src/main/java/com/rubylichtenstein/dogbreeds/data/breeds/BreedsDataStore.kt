@@ -4,8 +4,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.rubylichtenstein.domain.breeds.data.BreedInfo
-import com.rubylichtenstein.domain.breeds.data.BreedsDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
@@ -16,10 +14,10 @@ import javax.inject.Singleton
 @Singleton
 class BreedsDataStore @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) : BreedsDataSource {
+) {
     private val dogBreedsKey = stringPreferencesKey("dog_breeds")
 
-    override val get: Flow<List<BreedInfoImpl>?> = dataStore.data.map { preferences ->
+    val get: Flow<List<BreedInfoImpl>?> = dataStore.data.map { preferences ->
         preferences[dogBreedsKey]?.let { json ->
             try {
                 Json.decodeFromString<List<BreedInfoImpl>>(json)
@@ -29,14 +27,10 @@ class BreedsDataStore @Inject constructor(
         }
     }
 
-    override suspend fun save(breeds: List<BreedInfo>) {
-        runCatching {
-            val json = Json.encodeToString(breeds)
-            dataStore.edit { preferences ->
-                preferences[dogBreedsKey] = json
-            }
-        }.getOrElse { e ->
-
+    suspend fun save(breeds: List<BreedInfoImpl>) {
+        val json = Json.encodeToString(breeds)
+        dataStore.edit { preferences ->
+            preferences[dogBreedsKey] = json
         }
     }
 }

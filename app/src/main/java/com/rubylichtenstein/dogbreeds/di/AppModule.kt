@@ -15,7 +15,8 @@ import com.rubylichtenstein.dogbreeds.data.breeds.BreedsDataStore
 import com.rubylichtenstein.dogbreeds.data.breeds.BreedsRemoteApi
 import com.rubylichtenstein.dogbreeds.data.breeds.BreedsRepositoryImpl
 import com.rubylichtenstein.dogbreeds.data.favorites.FavoritesRepositoryImpl
-import com.rubylichtenstein.dogbreeds.data.images.ImagesDataStore
+import com.rubylichtenstein.dogbreeds.data.images.AppDatabase
+import com.rubylichtenstein.dogbreeds.data.images.DogImageDao
 import com.rubylichtenstein.dogbreeds.data.images.ImagesRepositoryImpl
 import com.rubylichtenstein.domain.breeds.data.BreedsRepository
 import com.rubylichtenstein.domain.favorites.FavoritesRepository
@@ -48,8 +49,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFavoritesRepository(dataStore: DataStore<Preferences>): FavoritesRepository {
-        return FavoritesRepositoryImpl(dataStore)
+    fun provideFavoritesRepository(dogImageDao: DogImageDao): FavoritesRepository {
+        return FavoritesRepositoryImpl(dogImageDao)
     }
 
     @Provides
@@ -60,9 +61,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBreedImagesDataStore(dataStore: DataStore<Preferences>): ImagesDataStore {
-        return ImagesDataStore(dataStore)
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return AppDatabase.getDatabase(context)
     }
+
+    @Provides
+    fun provideDogImageDao(database: AppDatabase): DogImageDao {
+        return database.dogImageDao()
+    }
+
 
     @Provides
     @Singleton
@@ -77,8 +84,8 @@ object AppModule {
     @Singleton
     fun provideBreedImagesRepository(
         dogBreedApiService: BreedImagesApi,
-        imagesDataStore: ImagesDataStore
+        dogImageDao: DogImageDao
     ): ImagesRepository {
-        return ImagesRepositoryImpl(dogBreedApiService, imagesDataStore)
+        return ImagesRepositoryImpl(dogBreedApiService, dogImageDao)
     }
 }

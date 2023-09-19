@@ -19,7 +19,7 @@ sealed interface AsyncResult<out T> {
     data object Loading : AsyncResult<Nothing>
 }
 
-fun <T> Flow<T>.asResult(): Flow<AsyncResult<T>> {
+fun <T> Flow<T>.asAsyncResult(): Flow<AsyncResult<T>> {
     return this
         .map<T, AsyncResult<T>> {
             AsyncResult.Success(it)

@@ -1,43 +1,55 @@
 package com.rubylichtenstein.dogbreeds.data.images
 
+import com.rubylichtenstein.dogbreeds.data.images.DogImageDataEntity.Companion
+import com.rubylichtenstein.dogbreeds.data.images.DogImageDataEntity.Companion.toDogImageEntity
 import com.rubylichtenstein.domain.common.AsyncResult
-import com.rubylichtenstein.domain.common.asResult
-import com.rubylichtenstein.domain.images.DogImageData
-import com.rubylichtenstein.domain.images.DogImageDataImpl
+import com.rubylichtenstein.domain.common.asAsyncResult
+import com.rubylichtenstein.domain.images.DogImageEntity
 import com.rubylichtenstein.domain.images.ImagesRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ImagesRepositoryImpl @Inject constructor(
     private val dogBreedApiService: BreedImagesApi,
-    private val imagesDataStore: ImagesDataStore
+    private val imagesDataStore: DogImageDao
 ) : ImagesRepository {
-    override fun getImagesByBreed(breed: String): Flow<AsyncResult<List<DogImageData>>> = flow {
-        val localImages = getImagesByBreedFromLocal(breed)
-        if (localImages != null) {
-            emit(localImages)
-        }
+    override fun getImagesByBreed(breed: String): Flow<AsyncResult<List<DogImageEntity>>> =
+        getImagesByBreedFromLocal(breed)
+            .onStart {
+                // If local data is empty, fetch from remote and save to local
+                val localData = imagesDataStore.getDogImagesByBreed(breed).first()
+                if (localData.isEmpty()) {
+                    val remoteData = getImagesByBreedFromRemote(breed).getOrThrow()
+                    remoteData.let {
+                        imagesDataStore.insertAll(it.map(Companion::fromDogImageEntity))
+                    }
+                }
+            }
+            .distinctUntilChanged()
+            .asAsyncResult()
 
-        try {
-            val remoteImages = dogBreedApiService.getBreedImages(breed).getOrThrow()
-            val images = remoteImages.map { imageUrl -> DogImageDataImpl(breed, imageUrl) }
-            imagesDataStore.save(images, breed)
-            emit(images)
-        } catch (e: Exception) {
-            val fallbackLocalImages = getImagesByBreedFromLocal(breed)
-            if (fallbackLocalImages != null) {
-                emit(fallbackLocalImages)
-            } else {
-                throw e
+    private suspend fun getImagesByBreedFromRemote(breed: String): Result<List<DogImageEntity>> {
+        return dogBreedApiService.getBreedImages(breed).map {
+            it.map {
+                DogImageEntity(breed, false, it)
             }
         }
-    }.asResult()
+    }
 
-    private suspend fun getImagesByBreedFromLocal(breed: String): List<DogImageData>? {
-        return imagesDataStore.getByBreed(breed).first()
+    private fun getImagesByBreedFromLocal(breed: String): Flow<List<DogImageEntity>> {
+        return imagesDataStore.getDogImagesByBreed(breed).map {
+            it.map { entity ->
+                entity.toDogImageEntity()
+            }
+        }
     }
 }
+
+
+
