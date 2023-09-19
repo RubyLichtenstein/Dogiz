@@ -30,7 +30,7 @@ fun FavoritesScreen(
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
-    val selectedBreeds = remember { mutableStateOf(setOf<String>()) }
+    val selectedBreeds by viewModel.selectedBreeds.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -73,11 +73,11 @@ fun FavoritesScreen(
                     }
                 } else {
                     Column {
-                        BreedFilter(breeds, selectedBreeds)
-                        val filteredImages = if (selectedBreeds.value.isEmpty()) {
+                        BreedFilter(breeds, selectedBreeds, viewModel::toggleSelectedBreed)
+                        val filteredImages = if (selectedBreeds.isEmpty()) {
                             favoriteImages
                         } else {
-                            favoriteImages.filter { it.breedName in selectedBreeds.value }
+                            favoriteImages.filter { it.breedName in selectedBreeds }
                         }
 
                         DogImagesGrid(
@@ -88,15 +88,15 @@ fun FavoritesScreen(
                     }
                 }
             }
-        }
-    }
+        }    }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun BreedFilter(
     breeds: List<String>,
-    selectedBreeds: MutableState<Set<String>>
+    selectedBreeds: Set<String>,
+    onToggleSelectedBreed: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -105,19 +105,11 @@ private fun BreedFilter(
     ) {
         breeds.forEach { breed ->
             FilterChip(
-                selected = selectedBreeds.value.contains(breed),
-                onClick = {
-                    val newSelectedBreeds = selectedBreeds.value.toMutableSet()
-                    if (newSelectedBreeds.contains(breed)) {
-                        newSelectedBreeds.remove(breed)
-                    } else {
-                        newSelectedBreeds.add(breed)
-                    }
-                    selectedBreeds.value = newSelectedBreeds
-                },
+                selected = selectedBreeds.contains(breed),
+                onClick = { onToggleSelectedBreed(breed) },
                 label = { Text(breed.capitalizeWords()) },
                 trailingIcon = {
-                    if (selectedBreeds.value.contains(breed)) {
+                    if (selectedBreeds.contains(breed)) {
                         Icon(Icons.Default.Check, contentDescription = null)
                     }
                 }

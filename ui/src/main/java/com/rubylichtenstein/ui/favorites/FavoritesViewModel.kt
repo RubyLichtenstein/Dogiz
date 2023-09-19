@@ -20,6 +20,14 @@ class FavoritesViewModel @Inject constructor(
     val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
+    private val _selectedBreeds = MutableStateFlow<Set<String>>(emptySet())
+    val selectedBreeds: StateFlow<Set<String>> = _selectedBreeds
+
+    fun toggleSelectedBreed(breed: String) {
+        _selectedBreeds.value = _selectedBreeds.value.toMutableSet().apply {
+            if (contains(breed)) remove(breed) else add(breed)
+        }
+    }
 
     private val _favoriteImagesState =
         MutableStateFlow<AsyncResult<List<DogImageEntity>>>(AsyncResult.Loading)

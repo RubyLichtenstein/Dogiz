@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.rubylichtenstein.ui.breeds.BreedsScreen
 import com.rubylichtenstein.ui.favorites.FavoriteCountBadge
+import com.rubylichtenstein.ui.favorites.FavoritesScreen
 import com.rubylichtenstein.ui.theme.DogBreedsTheme
 
 
@@ -68,7 +69,7 @@ fun MyNavHost(navController: NavHostController) {
         }
 
         composable(route = Screen.Favorites.route) {
-            com.rubylichtenstein.ui.favorites.FavoritesScreen(navController)
+             FavoritesScreen(navController)
         }
     }
 }
