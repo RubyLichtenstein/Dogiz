@@ -15,8 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Dog Breeds"
 include(":app")
-include(":feature:breeds")
-include(":feature:images")
-include(":feature:favorites")
-include(":core:data")
 include(":domain")
+include(":data")
+include(":ui")

@@ -1,9 +1,5 @@
 package com.rubylichtenstein.domain.images
 
-import com.rubylichtenstein.domain.breeds.buildDisplayName
-import com.rubylichtenstein.domain.common.capitalizeWords
-import kotlinx.serialization.Serializable
-
 /**
  * Represents an image of a dog along with information about its breed or sub-breed.
  *

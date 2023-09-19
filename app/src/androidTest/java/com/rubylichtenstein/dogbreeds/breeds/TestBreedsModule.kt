@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import com.rubylichtenstein.dogbreeds.data.images.BreedImagesApi
-import com.rubylichtenstein.dogbreeds.data.breeds.BreedsDataStore
+import com.rubylichtenstein.data.images.BreedImagesApi
+import com.rubylichtenstein.data.breeds.BreedsDataStore
 import com.rubylichtenstein.dogbreeds.di.AppModule
 import io.mockk.mockk
 
@@ -17,8 +17,8 @@ import io.mockk.mockk
 object TestBreedsModule {
 
     @Provides
-    fun provideBreedsApi(): BreedImagesApi = mockk()
+    fun provideBreedsApi(): com.rubylichtenstein.data.images.BreedImagesApi = mockk()
 
     @Provides
-    fun provideBreedsDataStore(): BreedsDataStore = mockk()
+    fun provideBreedsDataStore(): com.rubylichtenstein.data.breeds.BreedsDataStore = mockk()
 }
