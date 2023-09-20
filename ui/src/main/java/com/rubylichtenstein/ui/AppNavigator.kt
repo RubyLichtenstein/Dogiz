@@ -26,6 +26,7 @@ import androidx.navigation.navArgument
 import com.rubylichtenstein.ui.breeds.BreedsScreen
 import com.rubylichtenstein.ui.favorites.FavoriteCountBadge
 import com.rubylichtenstein.ui.favorites.FavoritesScreen
+import com.rubylichtenstein.ui.images.ImagesScreen
 import com.rubylichtenstein.ui.theme.DogBreedsTheme
 
 
@@ -60,7 +61,8 @@ fun MyNavHost(navController: NavHostController) {
                 val (breed, subBreed) = breedArg.split('_').let {
                     it[0] to it.getOrNull(1)
                 }
-                com.rubylichtenstein.ui.images.ImagesScreen(
+
+                ImagesScreen(
                     navController = navController,
                     breed = breed,
                     subBreed = subBreed
@@ -69,7 +71,7 @@ fun MyNavHost(navController: NavHostController) {
         }
 
         composable(route = Screen.Favorites.route) {
-             FavoritesScreen(navController)
+            FavoritesScreen(navController)
         }
     }
 }

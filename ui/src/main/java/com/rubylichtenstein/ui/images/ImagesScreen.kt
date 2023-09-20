@@ -2,7 +2,6 @@
 
 package com.rubylichtenstein.ui.images
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -25,10 +24,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.rubylichtenstein.ui.common.AsyncStateHandler
+import com.rubylichtenstein.domain.breeds.buildDisplayName
 import com.rubylichtenstein.domain.common.capitalizeWords
 import com.rubylichtenstein.ui.favorites.FavoritesViewModel
-import com.rubylichtenstein.domain.breeds.buildDisplayName
 
 @Composable
 fun ImagesScreen(
@@ -37,7 +35,7 @@ fun ImagesScreen(
     subBreed: String?
 ) {
     val imagesViewModel: ImagesViewModel = hiltViewModel()
-    val favoritesViewModel: com.rubylichtenstein.ui.favorites.FavoritesViewModel = hiltViewModel()
+    val favoritesViewModel: FavoritesViewModel = hiltViewModel()
     val dogImages by imagesViewModel.dogImagesState.collectAsStateWithLifecycle()
 
     val scrollBehavior =

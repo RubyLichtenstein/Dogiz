@@ -40,7 +40,6 @@ class GetBreedsUseCase @Inject constructor(
     }
 }
 
-//todo move
 fun buildDisplayName(breedName: String, subBreedName: String?): String {
     val capitalizedBreed = breedName.capitalizeWords()
     val capitalizedSubBreed = subBreedName?.capitalizeWords()
