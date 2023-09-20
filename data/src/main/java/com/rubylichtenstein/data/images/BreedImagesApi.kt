@@ -31,7 +31,7 @@ class BreedImagesApiImpl @Inject constructor(
      */
     override suspend fun getBreedImages(breed: String): Result<List<String>> {
         return client.safeApiCall {
-            get("${com.rubylichtenstein.data.images.BASE_URL}breed/$breed/images")
+            get("${BASE_URL}breed/$breed/images")
         }
     }
 }
