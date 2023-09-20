@@ -1,4 +1,6 @@
-# Dog Breeds - Modern Android Development Example
+# Dog Breeds - Modern Android Development And Architecture Showcase
+
+![Diagram](/art/diagrams.svg)
 
 Welcome to the Dog Breeds app, a showcase of modern Android development techniques and best practices.
 
