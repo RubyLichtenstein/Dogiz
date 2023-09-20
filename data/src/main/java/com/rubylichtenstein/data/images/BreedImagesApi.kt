@@ -1,12 +1,18 @@
 package com.rubylichtenstein.data.images
 
-import com.rubylichtenstein.data.MyHttpClient
+import com.rubylichtenstein.data.KtorHttpClient
 import io.ktor.client.request.get
 import javax.inject.Inject
 
 const val BASE_URL = "https://dog.ceo/api/"
 
-class BreedImagesApi @Inject constructor(private val client: MyHttpClient) {
+interface BreedImagesApi {
+    suspend fun getBreedImages(breed: String): Result<List<String>>
+}
+
+class BreedImagesApiImpl @Inject constructor(
+    private val client: KtorHttpClient
+) : BreedImagesApi {
 
     /**
      * Fetches a list of image URLs for a given dog breed or sub-breed.
@@ -23,7 +29,7 @@ class BreedImagesApi @Inject constructor(private val client: MyHttpClient) {
      * 2. To get images for a sub-breed:
      *      getBreedImages("shepherd/australian")
      */
-    suspend fun getBreedImages(breed: String): Result<List<String>> {
+    override suspend fun getBreedImages(breed: String): Result<List<String>> {
         return client.safeApiCall {
             get("${com.rubylichtenstein.data.images.BASE_URL}breed/$breed/images")
         }

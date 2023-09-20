@@ -10,6 +10,7 @@ import com.rubylichtenstein.data.breeds.BreedsRepositoryImpl
 import com.rubylichtenstein.data.favorites.FavoritesRepositoryImpl
 import com.rubylichtenstein.data.images.AppDatabase
 import com.rubylichtenstein.data.images.BreedImagesApi
+import com.rubylichtenstein.data.images.BreedImagesApiImpl
 import com.rubylichtenstein.data.images.DogImageDao
 import com.rubylichtenstein.data.images.ImagesRepositoryImpl
 import com.rubylichtenstein.domain.breeds.data.BreedsRepository
@@ -17,9 +18,7 @@ import com.rubylichtenstein.domain.favorites.FavoritesRepository
 import com.rubylichtenstein.domain.images.ImagesRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -32,7 +31,13 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(): MyHttpClient = MyHttpClient()
+    fun provideHttpClient(): KtorHttpClient = KtorHttpClient()
+
+    @Provides
+    @Singleton
+    fun provideBreedImagesApi(
+        httpClient: KtorHttpClient
+    ): BreedImagesApi = BreedImagesApiImpl(httpClient)
 
     @Provides
     @Singleton

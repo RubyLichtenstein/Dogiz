@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetBreedImagesUseCase @Inject constructor(
     private val imagesRepository: ImagesRepository
 ) {
-    operator fun invoke(breedId: String): Flow<AsyncResult<List<DogImageEntity>>> {
-        return imagesRepository.getImagesByBreed(breedId)
+    operator fun invoke(breedKey: String): Flow<AsyncResult<List<DogImageEntity>>> {
+        return imagesRepository.getImagesByBreed(breedKey)
     }
 }

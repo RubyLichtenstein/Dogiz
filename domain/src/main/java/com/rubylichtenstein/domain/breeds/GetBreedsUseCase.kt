@@ -50,3 +50,11 @@ fun buildDisplayName(breedName: String, subBreedName: String?): String {
         capitalizedBreed
     }
 }
+
+fun buildDisplayNameFromKey(breedName: String): String {
+    val parts = breedName.split('/')
+    val breed = parts[0].capitalizeWords()
+    val subBreed = parts.getOrNull(1)?.capitalizeWords()
+
+    return buildDisplayName(breed, subBreed)
+}

@@ -14,14 +14,16 @@ data class DogImageDataEntity(
     @PrimaryKey
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "breed_name") val breedName: String,
-    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean
+    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean,
+    @ColumnInfo(name = "breed_key") val breedKey: String
 ) {
     companion object {
-        fun fromDogImageEntity(dogImageEntity: DogImageEntity): DogImageDataEntity {
+        fun DogImageEntity.fromDogImageEntity(): DogImageDataEntity {
             return DogImageDataEntity(
-                url = dogImageEntity.url,
-                breedName = dogImageEntity.breedName,
-                isFavorite = dogImageEntity.isFavorite
+                url = url,
+                breedName = breedName,
+                isFavorite = isFavorite,
+                breedKey = breedKey
             )
         }
 
@@ -29,7 +31,8 @@ data class DogImageDataEntity(
             return DogImageEntity(
                 url = url,
                 breedName = breedName,
-                isFavorite = isFavorite
+                isFavorite = isFavorite,
+                breedKey = breedKey
             )
         }
     }

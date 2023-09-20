@@ -20,7 +20,7 @@ data class ApiResponse<T>(
     val message: T
 )
 
-class MyHttpClient {
+class KtorHttpClient {
     val client: HttpClient = HttpClient(Android) {
         install(ContentNegotiation) {
             json(Json {

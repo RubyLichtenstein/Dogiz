@@ -4,5 +4,5 @@ import com.rubylichtenstein.domain.common.AsyncResult
 import kotlinx.coroutines.flow.Flow
 
 interface ImagesRepository {
-    fun getImagesByBreed(breed: String): Flow<AsyncResult<List<DogImageEntity>>>
+    fun getImagesByBreed(breedKey: String): Flow<AsyncResult<List<DogImageEntity>>>
 }

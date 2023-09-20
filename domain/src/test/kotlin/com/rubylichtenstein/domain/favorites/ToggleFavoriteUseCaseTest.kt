@@ -37,6 +37,7 @@ class ToggleFavoriteUseCaseTest {
             url = "sampleUrl.com",
             isFavorite = false,
             breedName = "Dog",
+            breedKey = "dog"
         )
 
         // Act

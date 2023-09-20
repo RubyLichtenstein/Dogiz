@@ -2,10 +2,11 @@ package com.rubylichtenstein.ui.images
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
 import com.rubylichtenstein.domain.images.GetBreedImagesUseCase
+import com.rubylichtenstein.domain.images.buildBreedKey
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,7 @@ class ImagesViewModel @Inject constructor(
     val dogImagesState: StateFlow<AsyncResult<List<DogImageEntity>>> get() = _dogImagesState
 
     fun fetchDogImages(breed: String, subBreed: String?) {
-        val breedKey = if (subBreed == null) breed else "$breed/$subBreed"
+        val breedKey = buildBreedKey(subBreed, breed)
 
         viewModelScope.launch(Dispatchers.IO) {
             getImagesByBreedUseCase(breedKey)
