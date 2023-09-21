@@ -14,10 +14,6 @@ Additionally, Dogiz aligns and complements the principles found in the [Guide to
 
 For enthusiasts aiming to delve into the nuances of modern Android development, "Dogiz" is your invaluable guide.
 
---- 
-
-![Diagram](/art/diagrams.png)
-
 ---
 
 ### Overview
