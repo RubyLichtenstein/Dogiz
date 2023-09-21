@@ -2,8 +2,23 @@
 
 ![Diagram](/art/diagrams.png)
 
-Welcome to the Dog Breeds app, a showcase of modern Android development techniques and best practices.
+---
 
+# Dogs App - Modern Android Development Showcase
+
+Welcome to the "Dogs App", a premier demonstration of current Android best practices. While drawing inspiration from [Now in Android](https://github.com/android/nowinandroid), this project is intentionally streamlined, aiming to provide a more straightforward and digestible example.
+
+Our focus encompasses:
+- **Clean Architecture** for a structured development approach.
+- Utilization of **Modern Libraries** such as **Kotlin Coroutines**, **Flow**, and **Jetpack Compose**.
+- Rigorous **Testing** to ensure app reliability.
+- Efficient **CI/CD** processes for smooth integrations and deployments.
+
+Furthermore, this project serves as a practical complement to the [Guide to App Architecture](https://developer.android.com/topic/architecture) offered by Android Developers.
+
+For those looking to grasp the essence of modern Android development without the intricacies of larger projects, the "Dogs App" stands as an invaluable resource.
+
+---
 ### Overview
 
 This project simplifies and presents some of the core ideas from [Now in Android](https://github.com/android/nowinandroid),
