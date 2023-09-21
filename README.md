@@ -3,10 +3,11 @@
 ![Diagram](/art/diagrams.png)
 
 ---
+# 🐶✨ Dogiz
 
-# Dogs App - Modern Android Development Showcase
+Modern Android Development Showcase
 
-Welcome to the "Dogs App", a premier demonstration of current Android best practices. While drawing inspiration from [Now in Android](https://github.com/android/nowinandroid), this project is intentionally streamlined, aiming to provide a more straightforward and digestible example.
+Welcome to the "Dogiz", a premier demonstration of current Android best practices. While drawing inspiration from [Now in Android](https://github.com/android/nowinandroid), this project is intentionally streamlined, aiming to provide a more straightforward and digestible example.
 
 Our focus encompasses:
 - **Clean Architecture** for a structured development approach.
@@ -28,6 +29,55 @@ The app centers around dog breeds, offering information and images through a min
 - **UI Layer**: Provides the visual interactions with the user.
 - **Domain Layer**: Holds our business logic and use-cases.
 - **Data Layer**: Manages data sources, both local and remote.
+
+---
+
+### Clean Architecture in Android:
+
+Clean Architecture, as implemented in Android, prioritizes the separation of concerns by defining distinct layers and abiding by the SOLID principles:
+
+- **Separation of Concerns**: Each layer has a specific responsibility, ensuring clarity and modularity.
+- **Layer Independence**: Central layers (like the domain layer) are platform-agnostic, using only pure Kotlin/Java, while outer layers (like UI or frameworks) integrate Android-specific code.
+- **Testability**: Facilitates unit and integration testing as each layer can be isolated and tested independently.
+- **Scalability and Maintainability**: By decoupling components, the architecture supports easier maintenance and scalability, allowing for adaptability to changing technologies or requirements.
+
+In essence, Clean Architecture sets the foundation for a robust, sustainable, and evolvable Android app structure.
+
+---
+
+### Functional Programming with Kotlin Flow:
+
+In the "Dogs App" showcase, we embrace the principles of functional programming (FP) to elevate our application design and logic:
+
+- **Pure Functions**: Our app benefits from the predictability and testability of functions without side effects. This ensures consistent behavior as users navigate through the app, exploring various dog breeds.
+
+- **Immutable Data**: By ensuring data remains unchanged, the "Dogs App" minimizes potential bugs, especially when fetching and displaying breed details.
+
+- **Kotlin Flow Integration**: 
+- **Composition Over Inheritance**:
+
+
+By integrating FP principles, especially with Kotlin Flow, the "Dogs App" showcase stands as a testament to modern, functional, and efficient Android development.
+
+---
+
+Certainly! Here's a brief overview concerning UX, especially in the context of handling no connection, data persistence, and presenting user-friendly errors, formatted in markdown:
+
+---
+
+### UX Considerations: Handling Connectivity, Persistence, and Error Feedback
+
+In a world driven by digital experiences, ensuring a seamless user experience (UX) is paramount. Within the "Dogs App" showcase, we've deeply considered this and incorporated the following UX-focused measures:
+
+- **No Connection Handling**: Recognizing that users might not always have a stable internet connection, the app is designed to gracefully handle such scenarios. Instead of a blank screen or unexpected crashes, users are presented with friendly notices or cached data from previous sessions.
+
+- **Data Persistence**: The importance of data persistence cannot be overstated. Whether it's saving a user's preferences or caching breed information for offline use, our app ensures that essential data remains accessible, even without an active connection.
+
+- **Meaningful Error Feedback**: Errors are inevitable, but what sets an exceptional app apart is how these errors are communicated. We've prioritized providing users with clear, understandable, and actionable error messages. Instead of technical jargon, users receive guidance on what went wrong and potential steps to rectify it.
+
+By integrating these UX strategies, the "Dogs App" ensures that users have a consistent, intuitive, and user-centric experience, even under less-than-ideal circumstances.
+
+---
 
 ### Key Features
 
