@@ -90,7 +90,7 @@ fun BreedsScreen(
 fun BreedList(breeds: List<BreedEntity>, onItemClick: (BreedEntity) -> Unit) {
     LazyColumn {
         items(breeds) { breed ->
-            BreedListItem(breed = breed.name, onClick = { onItemClick(breed) })
+            BreedListItem(breed = breed, onClick = { onItemClick(breed) })
             HorizontalDivider(
                 thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
@@ -100,7 +100,7 @@ fun BreedList(breeds: List<BreedEntity>, onItemClick: (BreedEntity) -> Unit) {
 }
 
 @Composable
-fun BreedListItem(breed: String, onClick: () -> Unit) {
+fun BreedListItem(breed: BreedEntity, onClick: () -> Unit) {
     ListItem(
         modifier = Modifier
             .clickable(onClick = onClick)
@@ -108,7 +108,7 @@ fun BreedListItem(breed: String, onClick: () -> Unit) {
             .fillMaxWidth(),
         headlineContent = {
             Text(
-                text = breed.capitalizeWords(),
+                text = breed.name.capitalizeWords(),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
