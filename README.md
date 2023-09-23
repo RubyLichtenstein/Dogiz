@@ -1,5 +1,10 @@
 # 🐾🐶✨ Dogiz: Modern Android Development Showcase
 
+<p align="center">
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
+</p>
+
 Welcome to "Dogiz," your go-to example for modern Android development. Inspired
 by [Now in Android](https://github.com/android/nowinandroid), we've simplified complex practices for
 easy understanding and practical learning.

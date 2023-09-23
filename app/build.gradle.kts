@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.rubylichtenstein.dogbreeds"
-        minSdk = 24
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
