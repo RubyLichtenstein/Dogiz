@@ -1,6 +1,4 @@
-<p align="center">
-    <font size="1">🐾🐶✨ Dogiz: A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, and Clean Architecture.</font>
-</p>
+<h1 align="center">🐾🐶✨ Dogiz: A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, and Clean Architecture.</h1>
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
