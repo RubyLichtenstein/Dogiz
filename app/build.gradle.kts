@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.rubylichtenstein.dogbreeds"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -61,7 +61,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":ui"))
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.activity:activity-compose:1.7.2")
 
     testImplementation("junit:junit:4.13.2")
