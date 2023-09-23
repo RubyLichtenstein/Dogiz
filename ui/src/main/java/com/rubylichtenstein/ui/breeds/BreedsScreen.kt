@@ -4,14 +4,14 @@ package com.rubylichtenstein.ui.breeds
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -57,13 +57,12 @@ fun BreedsScreen(
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            LargeTopAppBar(
                 title = {
                     Text(
                         "Dogiz",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.headlineMedium,
                     )
                 },
                 scrollBehavior = scrollBehavior
@@ -83,7 +82,9 @@ fun BreedsScreen(
 
 @Composable
 fun BreedList(breeds: List<BreedEntity>, onItemClick: (BreedEntity) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+    ) {
         items(breeds) { breed ->
             BreedListItem(breed = breed, onClick = { onItemClick(breed) })
         }
@@ -94,7 +95,7 @@ fun BreedList(breeds: List<BreedEntity>, onItemClick: (BreedEntity) -> Unit) {
 fun BreedListItem(breed: BreedEntity, onClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .padding(bottom = 4.dp)
     ) {
         ListItem(
             headlineContent = {
