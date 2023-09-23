@@ -1,5 +1,5 @@
 <p align="center">
-    <font size="6">🐾🐶✨ Dogiz: A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, and Clean Architecture.</font>
+    <font size="1">🐾🐶✨ Dogiz: A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, and Clean Architecture.</font>
 </p>
 
 <p align="center">
