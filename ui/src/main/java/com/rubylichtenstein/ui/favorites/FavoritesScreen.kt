@@ -97,7 +97,7 @@ private fun BreedFilter(
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+            .padding(top = 0.dp, start = 16.dp, end = 16.dp, bottom = 0.dp)
     ) {
         breeds.forEach { breed ->
             FilterChip(

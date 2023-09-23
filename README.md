@@ -18,9 +18,7 @@ Anyone keen to dive into modern Android development—Dogiz is your guide!
 
 ## Screenshots
 
-![breeds](./art/screenshots/breeds.png)
-![images](./art/screenshots/images.png)
-![favorites](./art/screenshots/favorites.png)
+![screenshots](./art/screenshots.png)
 
 ## 🧱 Clean Architecture in Android with Kotlin
 
