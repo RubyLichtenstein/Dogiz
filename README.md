@@ -1,8 +1,9 @@
 # 🐾🐶✨ Dogiz: Modern Android Development Showcase
 
 <p align="center">
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
+  <a href="https://github.com/RubyLichtenstein/Dogiz/actions"><img alt="Build Status" src="https://github.com/RubyLichtenstein/Dogiz/workflows/Android%20CI/badge.svg"/></a>
 </p>
 
 Welcome to "Dogiz," your go-to example for modern Android development. Inspired
