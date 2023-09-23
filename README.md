@@ -1,8 +1,11 @@
 # 🐾🐶✨ Dogiz: Modern Android Development Showcase
 
-Welcome to "Dogiz," your go-to example for modern Android development. Inspired by [Now in Android](https://github.com/android/nowinandroid), we've simplified complex practices for easy understanding and practical learning.
+Welcome to "Dogiz," your go-to example for modern Android development. Inspired
+by [Now in Android](https://github.com/android/nowinandroid), we've simplified complex practices for
+easy understanding and practical learning.
 
 🎯 **Key Aspects**:
+
 - 🏗️ **Clean Architecture**: A structured development approach.
 - 📚 **Modern Libraries**: Kotlin Coroutines, Flow, Jetpack Compose, and more.
 - 🧪 **Testing**: Ensuring robustness at every stage.
@@ -13,6 +16,12 @@ Welcome to "Dogiz," your go-to example for modern Android development. Inspired 
 👨‍💻 **Who Should Use This?**
 Anyone keen to dive into modern Android development—Dogiz is your guide!
 
+## Screenshots
+
+![breeds](./art/screenshots/breeds.png)
+![images](./art/screenshots/images.png)
+![favorites](./art/screenshots/favorites.png)
+
 ## 🧱 Clean Architecture in Android with Kotlin
 
 ### Clean Architecture in Android prioritizes:
@@ -22,7 +31,7 @@ Anyone keen to dive into modern Android development—Dogiz is your guide!
 - 🧪 **Testability**: Fostering reliability.
 - 🚀 **Adaptive Design**: Ready for tech shifts and requirements.
 
-####   The Three Layers
+#### The Three Layers
 
 - **UI Layer**: Interactive & visually captivating.
 - **Domain Layer**: The business logic hub.
@@ -44,7 +53,6 @@ The domain layer is the backbone:
 - ⚙️ **Use Cases**: Distinct operations encapsulating business rules.
 - 🧪 **Unit Testing**: For validating each use case.
 - 🚀 **Decoupling**: Ensuring stability and consistency.
-
 
 ##### 💾 The Data Layer
 
@@ -78,8 +86,10 @@ Hilt takes dependency management to the next level:
 
 ### 🖌️🎨 UX/UI Considerations
 
-- 🌐 **Offline Handling**: Friendly alerts and cached data ensure smooth usage, even without a connection.
-- 💾 **Data Persistence**: From user preferences to dog breed details, we save the essentials for offline access.
+- 🌐 **Offline Handling**: Friendly alerts and cached data ensure smooth usage, even without a
+  connection.
+- 💾 **Data Persistence**: From user preferences to dog breed details, we save the essentials for
+  offline access.
 - ⚠️ **Clear Error Feedback**: We've got you covered with clear error messages and alerts.
 
 ---
@@ -89,7 +99,7 @@ Hilt takes dependency management to the next level:
 "Dogiz" incorporates the latest libraries and tools:
 
 - **Kotlin Coroutines**: For efficient asynchronous programming.
--**Kotlin Flow**: Managing async data streams.
+  -**Kotlin Flow**: Managing async data streams.
 - **Hilt**: For injecting dependencies.
 - **Ktor Client**: Handling APIs.
 - **Jetpack Compose & Navigation-Compose**: Crafting UI & navigation.
@@ -103,11 +113,14 @@ Hilt takes dependency management to the next level:
 
 ## 🤝 Feedback and Contributions
 
-"Dogiz" is more than just an app—it's a showcase for the community! As we continue to refine and expand, your insights, expertise, and contributions can play a crucial role.
+"Dogiz" is more than just an app—it's a showcase for the community! As we continue to refine and
+expand, your insights, expertise, and contributions can play a crucial role.
 
-🚧 **Work in Progress**: We're tirelessly enhancing features and functionalities. Your patience and suggestions are greatly appreciated!
+🚧 **Work in Progress**: We're tirelessly enhancing features and functionalities. Your patience and
+suggestions are greatly appreciated!
 
-👐 **Contribute**: Spotted an area for improvement? Have a feature idea? Open an issue to discuss or, even better, submit a pull request to make "Dogiz" even more robust.
+👐 **Contribute**: Spotted an area for improvement? Have a feature idea? Open an issue to discuss or,
+even better, submit a pull request to make "Dogiz" even more robust.
 
 🙏 We deeply value the power of community collaboration. Let's shape "Dogiz" together!
 
