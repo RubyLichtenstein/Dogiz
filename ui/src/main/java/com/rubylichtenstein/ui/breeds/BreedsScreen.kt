@@ -4,13 +4,12 @@ package com.rubylichtenstein.ui.breeds
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -57,18 +56,14 @@ fun BreedsScreen(
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-
         topBar = {
-            LargeTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Dog Breeds",
+                        "Dogiz",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.headlineMedium,
                     )
                 },
                 scrollBehavior = scrollBehavior
@@ -91,27 +86,24 @@ fun BreedList(breeds: List<BreedEntity>, onItemClick: (BreedEntity) -> Unit) {
     LazyColumn {
         items(breeds) { breed ->
             BreedListItem(breed = breed, onClick = { onItemClick(breed) })
-            HorizontalDivider(
-                thickness = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer
-            )
         }
     }
 }
 
 @Composable
 fun BreedListItem(breed: BreedEntity, onClick: () -> Unit) {
-    ListItem(
+    Card(
         modifier = Modifier
-            .clickable(onClick = onClick)
-            .padding(top = 4.dp, bottom = 4.dp)
-            .fillMaxWidth(),
-        headlineContent = {
-            Text(
-                text = breed.name.capitalizeWords(),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        },
-    )
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+    ) {
+        ListItem(
+            headlineContent = {
+                Text(
+                    text = breed.name.capitalizeWords(),
+                )
+            },
+            Modifier.clickable(onClick = onClick),
+            tonalElevation = 4.dp,
+        )
+    }
 }
