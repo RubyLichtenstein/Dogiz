@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -33,7 +32,7 @@ import com.rubylichtenstein.ui.theme.DogBreedsTheme
 sealed class Screen(val route: String) {
     data object BreedsList : Screen("breedsList")
     data object Favorites : Screen("favorites")
-    class DogImages(val breed: String) : Screen("dogImages/$breed")
+    class DogImages(breed: String) : Screen("dogImages/$breed")
 }
 
 @Composable
@@ -100,7 +99,7 @@ fun MainAppScreen(navController: NavHostController) {
                     val currentRoute = navBackStackEntry?.destination?.route
 
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.List, contentDescription = null) },
+                        icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
                         label = { Text("Breeds") },
                         selected = currentRoute == Screen.BreedsList.route,
                         onClick = {

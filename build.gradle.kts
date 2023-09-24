@@ -8,5 +8,5 @@ plugins {
     kotlin("plugin.serialization") version "1.9.10"
     id("com.android.library") version "8.1.1" apply false
     id("jacoco")
-//    id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
 }
