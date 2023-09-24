@@ -22,9 +22,8 @@ class FavoritesRepositoryImpl @Inject constructor(
         imagesDao.getFavoriteDogImages().map { it.map { it.toDogImageEntity() } }.asAsyncResult()
 
     override suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean) {
-        //todo notify user in case of error
         withContext(Dispatchers.IO) {
-            val ret = imagesDao.updateFavoriteStatus(
+            imagesDao.updateFavoriteStatus(
                 url = url,
                 isFavorite = isFavorite
             )

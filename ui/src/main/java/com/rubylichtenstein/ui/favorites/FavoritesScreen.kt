@@ -76,10 +76,8 @@ fun FavoritesScreen(
                         }
 
                         DogImagesGrid(
-                            images = filteredImages,
-                            onToggleFavorite = { dogImage -> viewModel.toggleFavorite(dogImage) },
-                            showNames = true
-                        )
+                            images = filteredImages
+                        ) { dogImage -> viewModel.toggleFavorite(dogImage) }
                     }
                 }
             }

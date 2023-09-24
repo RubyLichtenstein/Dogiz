@@ -3,9 +3,9 @@ apply(from = "../jacoco.gradle.kts")
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("jacoco")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -50,7 +50,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
 
     implementation("androidx.core:core-ktx:1.12.0")

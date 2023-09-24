@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import com.rubylichtenstein.domain.breeds.BreedEntity
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.common.capitalizeWords
+import com.rubylichtenstein.ui.Screen
 import com.rubylichtenstein.ui.common.AsyncStateHandler
 
 @Composable
@@ -40,7 +41,7 @@ fun BreedsScreen(
     BreedsScreen(
         breedListState = breedListState,
         navigateToDogImages = { breedItem ->
-            navController.navigate("dogImages/${breedItem.route}")
+            navController.navigate(Screen.DogImages(breedItem.route).route)
         }
     )
 }

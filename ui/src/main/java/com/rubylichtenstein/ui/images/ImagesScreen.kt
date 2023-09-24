@@ -72,10 +72,8 @@ fun ImagesScreen(
         Box(modifier = Modifier.padding(innerPadding)) {
             AsyncStateHandler(dogImages) { dogImageList ->
                 DogImagesGrid(
-                    images = dogImageList,
-                    onToggleFavorite = { dogImage -> favoritesViewModel.toggleFavorite(dogImage) },
-                    showNames = false
-                )
+                    images = dogImageList
+                ) { dogImage -> favoritesViewModel.toggleFavorite(dogImage) }
             }
         }
     }

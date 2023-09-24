@@ -31,8 +31,7 @@ import com.rubylichtenstein.domain.images.DogImageEntity
 @Composable
 fun DogImagesGrid(
     images: List<DogImageEntity>,
-    onToggleFavorite: (DogImageEntity) -> Unit,
-    showNames: Boolean
+    onToggleFavorite: (DogImageEntity) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),

@@ -4,6 +4,7 @@ plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
     id("jacoco")
+    id("com.google.devtools.ksp")
 }
 
 java {
@@ -59,7 +60,6 @@ val junitVersion: String by project
 
 dependencies {
     implementation("javax.inject:javax.inject:1")
-//    testImplementation("junit:junit:4.13.2")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
