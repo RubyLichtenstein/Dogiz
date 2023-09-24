@@ -1,3 +1,5 @@
+apply(from = "../jacoco.gradle.kts")
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("dagger.hilt.android.plugin")
     id("com.google.dagger.hilt.android")
+    id("jacoco")
 }
 
 android {

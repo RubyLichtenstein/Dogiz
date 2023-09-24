@@ -1,8 +1,11 @@
+apply(from = "../jacoco.gradle.kts")
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("jacoco")
 }
 
 android {
