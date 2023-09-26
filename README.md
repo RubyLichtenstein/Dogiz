@@ -22,9 +22,13 @@ easy understanding and practical learning.
 👨‍💻 **Who Should Use This?**
 Anyone keen to dive into modern Android development—Dogiz is your guide!
 
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FRubyLichtenstein%2FDogiz.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FRubyLichtenstein%2FDogiz?ref=badge_large)
+
 ## Screenshots
 
 ![screenshots](./art/screenshots.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FRubyLichtenstein%2FDogiz.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FRubyLichtenstein%2FDogiz?ref=badge_shield)
 
 ## 🧱 Clean Architecture in Android with Kotlin
 
@@ -129,5 +133,3 @@ even better, submit a pull request to make "Dogiz" even more robust.
 🙏 We deeply value the power of community collaboration. Let's shape "Dogiz" together!
 
 ---
-
-
