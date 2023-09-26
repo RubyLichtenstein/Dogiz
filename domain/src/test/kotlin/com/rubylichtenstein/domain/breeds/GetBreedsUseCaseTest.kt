@@ -1,7 +1,5 @@
 package com.rubylichtenstein.domain.breeds
 
-import com.rubylichtenstein.domain.breeds.BreedEntity
-import com.rubylichtenstein.domain.breeds.GetBreedsUseCase
 import com.rubylichtenstein.domain.breeds.data.BreedInfo
 import com.rubylichtenstein.domain.breeds.data.BreedsRepository
 import com.rubylichtenstein.domain.common.AsyncResult
@@ -49,5 +47,29 @@ class GetBreedsUseCaseTest {
             )
         )
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun `buildDisplayName returns correctly formatted name without subBreed`() {
+        val result = buildDisplayName("breed1", null)
+        assertEquals("Breed1", result)
+    }
+
+    @Test
+    fun `buildDisplayName returns correctly formatted name with subBreed`() {
+        val result = buildDisplayName("breed1", "subBreedA")
+        assertEquals("Breed1 (SubBreedA)", result)
+    }
+
+    @Test
+    fun `buildDisplayNameFromKey returns correctly formatted name without subBreed`() {
+        val result = buildDisplayNameFromKey("breed1")
+        assertEquals("Breed1", result)
+    }
+
+    @Test
+    fun `buildDisplayNameFromKey returns correctly formatted name with subBreed`() {
+        val result = buildDisplayNameFromKey("breed1/subBreedA")
+        assertEquals("Breed1 (SubBreedA)", result)
     }
 }
