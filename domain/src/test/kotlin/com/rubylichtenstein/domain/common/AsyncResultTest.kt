@@ -1,8 +1,5 @@
 package com.rubylichtenstein.domain.common
 
-import com.rubylichtenstein.domain.common.AsyncResult
-import com.rubylichtenstein.domain.common.asAsyncResult
-import com.rubylichtenstein.domain.common.mapSuccess
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
@@ -53,5 +50,12 @@ class AsyncResultTest {
         val flow = flow<String> { throw Exception("Error") }.asAsyncResult().toList()
         val result = flow.drop(1).first()
         assertTrue(result is AsyncResult.Error && result.exception?.message == "Error")
+    }
+
+    @Test
+    fun `asAsyncResult emits Error`() = runTest {
+        val flow = flow { emit(AsyncResult.Error(Exception("Error"))) }.toList()
+        val result = flow.first()
+        assertTrue(result.exception?.message == "Error")
     }
 }
