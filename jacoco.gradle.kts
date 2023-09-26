@@ -41,7 +41,8 @@ private val executionDataTree = fileTree("${project.buildDir}") {
 fun JacocoReportsContainer.reports() {
     html.required.set(true)
     xml.required.set(true)
-    csv.required.set(false)
+    csv.required.set(true)
+
 //    csv.isEnabled = false
 //    xml.apply {
 //        isEnabled = true
@@ -102,3 +103,4 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 //    }
 //    setDirectories()
 //}
+
