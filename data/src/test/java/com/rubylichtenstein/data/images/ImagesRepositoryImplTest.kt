@@ -3,15 +3,16 @@ package com.rubylichtenstein.data.images
 import app.cash.turbine.test
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class ImagesRepositoryImplTest {
@@ -58,23 +59,25 @@ class ImagesRepositoryImplTest {
     private val fakeDao = FakeDogImageDao()
     private val repository = ImagesRepositoryImpl(fakeApi, fakeDao)
 
-    @Test
-    fun `getImagesByBreed fetches from remote when local is empty and stores locally`() =
-        runTest {
-            // Given
-            fakeApi.getBreedImagesMock = { breed ->
-                Result.success(listOf("url1", "url2"))
-            }
 
-            // Act & Assert
-            repository.getImagesByBreed("breedKey").test {
-                assertEquals(AsyncResult.Loading, awaitItem())
-                val successData = awaitItem() as AsyncResult.Success<List<DogImageEntity>>
-                assertEquals(2, successData.data.size)
-                assertEquals("url1", successData.data[0].url)
-                assertEquals("url2", successData.data[1].url)
-            }
+    @Test
+    fun `getImagesByBreed fetches from remote when local is empty and stores locally`() = runTest {
+        // Given
+        fakeApi.getBreedImagesMock = { breed ->
+            Result.success(listOf("url1", "url2"))
         }
+
+        // Act & Assert
+        repository.getImagesByBreed("breedKey").test {
+            awaitItem() shouldBe AsyncResult.Loading
+            val successData = awaitItem() as AsyncResult.Success<List<DogImageEntity>>
+            successData.data.size shouldBe 2
+            successData.data[0].url shouldBe "url1"
+            successData.data[1].url shouldBe "url2"
+
+            cancelAndConsumeRemainingEvents()
+        }
+    }
 
     @Test
     fun `getImagesByBreed updates local data when remote data is fetched`() = runTest {
@@ -86,16 +89,18 @@ class ImagesRepositoryImplTest {
         val localData = DogImageDataEntity("breedName", "breedKey", false, "localUrl")
         fakeDao.insertAll(listOf(localData))
 
-        // Act
-        val flowData = repository.getImagesByBreed("breedKey").take(2).toList()
+        // Act & Assert
+        repository.getImagesByBreed("breedKey").test {
+            awaitItem() shouldBe AsyncResult.Loading
+            val successData = awaitItem() as AsyncResult.Success<List<DogImageEntity>>
+            successData.data.size shouldBe 2
+            successData.data[0].url shouldBe "url3"
+            successData.data[1].url shouldBe "url4"
 
-        // Assert
-        assertTrue(flowData[0] is AsyncResult.Loading)
-        val successData = flowData[1] as AsyncResult.Success<List<DogImageEntity>>
-        assertEquals(2, successData.data.size)
-        assertEquals("url3", successData.data[0].url)
-        assertEquals("url4", successData.data[1].url)
+            cancelAndConsumeRemainingEvents()
+        }
     }
+
 
     @Test
     fun `getImagesByBreed fetches from remote when local is empty`() = runTest {
@@ -104,57 +109,52 @@ class ImagesRepositoryImplTest {
             Result.success(listOf("url5", "url6"))
         }
 
-        // Act
-        val flowData = repository.getImagesByBreed("breedKey")
-            .take(2)
-            .toList()
+        // Act & Assert
+        repository.getImagesByBreed("breedKey").test {
+            awaitItem() shouldBe AsyncResult.Loading
 
-        // Assert
-        assertTrue(flowData[0] is AsyncResult.Loading)
-        println(flowData)
-        val successData = flowData[1] as AsyncResult.Success<List<DogImageEntity>>
-        assertEquals(2, successData.data.size)
-        assertEquals("url5", successData.data[0].url)
-        assertEquals("url6", successData.data[1].url)
+            val successData = awaitItem() as AsyncResult.Success<List<DogImageEntity>>
+            successData.data.map { it.url } shouldContainExactlyInAnyOrder listOf("url5", "url6")
+
+            cancelAndConsumeRemainingEvents()
+        }
     }
 
     @Test
-    fun `getImagesByBreed saves remote data to local storage even when local data exists`() =
-        runTest {
-            // Given
-            fakeApi.getBreedImagesMock = { breed ->
-                Result.success(listOf("url7", "url8"))
-            }
-
-            val localData = DogImageDataEntity("breedName", "breedKey", false, "localUrl")
-            fakeDao.insertAll(listOf(localData))
-
-            // Act
-            repository.getImagesByBreed("breedKey").take(2).toList()
-
-            // Assert that the new remote data has replaced the old local data
-            val savedLocalData = fakeDao.getDogImagesByBreedKey("breedKey").first()
-            assertTrue(savedLocalData.any { it.url == "url7" })
-            assertTrue(savedLocalData.any { it.url == "url8" })
+    fun `getImagesByBreed saves remote data to local storage even when local data exists`() = runTest {
+        // Given
+        fakeApi.getBreedImagesMock = { breed ->
+            Result.success(listOf("url7", "url8"))
         }
+
+        val localData = DogImageDataEntity("breedName", "breedKey", false, "localUrl")
+        fakeDao.insertAll(listOf(localData))
+
+        // Act & Assert
+        repository.getImagesByBreed("breedKey").test {
+            awaitItem() shouldBe AsyncResult.Loading
+            awaitItem() // consume the next emission, which is AsyncResult.Success
+
+            val savedLocalData = fakeDao.getDogImagesByBreedKey("breedKey").first()
+            savedLocalData.any { it.url == "url7" }.shouldBeTrue()
+            savedLocalData.any { it.url == "url8" }.shouldBeTrue()
+
+            cancelAndConsumeRemainingEvents()
+        }
+    }
 
     @Test
     fun `getImagesByBreed returns error when remote fetch fails`() = runTest {
         // Given
-        // Given
-        fakeApi.getBreedImagesMock = { breed ->
-            Result.success(emptyList())
-        }
-
         fakeApi.getBreedImagesMock = { breed ->
             Result.failure(Exception("API failed"))
         }
-        // Act
-        val flowData = repository.getImagesByBreed("breedKey").toList()
 
-        // Assert
-        assertTrue(flowData[0] is AsyncResult.Loading)
-        assertTrue(flowData[1] is AsyncResult.Error)
+        // Act & Assert
+        repository.getImagesByBreed("breedKey").test {
+            awaitItem() shouldBe AsyncResult.Loading
+            awaitItem() should beInstanceOf<AsyncResult.Error>()
+            cancelAndConsumeRemainingEvents()
+        }
     }
-
 }
