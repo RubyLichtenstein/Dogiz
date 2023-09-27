@@ -85,6 +85,7 @@ val ktorVersion: String by project
 val hiltVersion: String by project
 val junitVersion: String by project
 val coroutinesVersion: String by project
+val kotestVersion: String by project
 
 dependencies {
 
@@ -121,4 +122,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 
     testImplementation("app.cash.turbine:turbine:1.0.0")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+
 }
