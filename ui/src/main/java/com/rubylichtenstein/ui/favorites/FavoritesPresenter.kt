@@ -27,59 +27,42 @@ sealed interface Event {
 @Composable
 fun FavoritesPresenter(
     events: Flow<Event>,
-    favoriteImagesFlow: Flow<AsyncResult<List<DogImageEntity>>>,
+    favoriteImagesFlow: Flow<AsyncResult<List<DogImageEntity>>>
 ): AsyncResult<FavoritesModel> {
-    var favoriteImages by remember {
-        mutableStateOf<AsyncResult<List<DogImageEntity>>>(AsyncResult.Loading)
+    var favoriteImages by remember { mutableStateOf(AsyncResult.Loading as AsyncResult<List<DogImageEntity>>) }
+    var filterChips by remember { mutableStateOf(emptySet<FilterChipInfo>()) }
+
+    fun getSelectedBreeds(): Set<String> {
+        return filterChips.filter { it.selected }.map { it.label }.toSet()
     }
 
-    var filterChips by remember {
-        mutableStateOf<Set<FilterChipInfo>>(emptySet())
-    }
-
-    LaunchedEffect(Unit) {
-        favoriteImagesFlow.collect {
-            favoriteImages = it
-            if (it is AsyncResult.Success<List<DogImageEntity>>) {
-                val currentSelectedBreeds = filterChips
-                    .filter { it.selected }
-                    .map { it.label }
-                    .toSet()
-
-                filterChips = buildFilterChipsInfo(it.data, currentSelectedBreeds)
+    LaunchedEffect(favoriteImagesFlow) {
+        favoriteImagesFlow.collect { result ->
+            favoriteImages = result
+            if (result is AsyncResult.Success) {
+                filterChips = buildFilterChipsInfo(result.data, getSelectedBreeds())
             }
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(events) {
         events.collect { event ->
-            when (event) {
-                is Event.ToggleSelectedBreed -> {
-                    val toggleBreed = event.breed
-                    filterChips = filterChips.map {
-                        if (it.label == toggleBreed.label) {
-                            it.copy(selected = !toggleBreed.selected)
-                        } else {
-                            it
-                        }
-                    }.toSet()
-                }
+            if (event is Event.ToggleSelectedBreed) {
+                val toggleBreed = event.breed
+                filterChips = filterChips.map {
+                    if (it.label == toggleBreed.label) it.copy(selected = !toggleBreed.selected)
+                    else it
+                }.toSet()
             }
         }
     }
 
     return when (val images = favoriteImages) {
         is AsyncResult.Success -> {
-
-            val selectedBreeds = filterChips
-                .filter { it.selected }
-                .map { it.label }
-                .toSet()
-
             val filteredImages = images.data.filter {
+                val selectedBreeds = getSelectedBreeds()
                 selectedBreeds.isEmpty() || it.breedName in selectedBreeds
             }
-
             AsyncResult.Success(
                 FavoritesModel(
                     dogImages = filteredImages,
