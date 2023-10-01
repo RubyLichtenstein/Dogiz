@@ -6,6 +6,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("jacoco")
     id("com.google.devtools.ksp")
+    id("app.cash.molecule")
 }
 
 android {

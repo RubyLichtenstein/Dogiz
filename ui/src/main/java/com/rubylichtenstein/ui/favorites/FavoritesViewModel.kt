@@ -1,13 +1,13 @@
 package com.rubylichtenstein.ui.favorites
 
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
 import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.favorites.GetFavoriteImagesUseCase
 import com.rubylichtenstein.domain.favorites.ToggleFavoriteUseCase
 import com.rubylichtenstein.domain.images.DogImageEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -19,23 +19,21 @@ import javax.inject.Inject
 class FavoritesViewModel @Inject constructor(
     val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     val toggleFavoriteUseCase: ToggleFavoriteUseCase
-) : ViewModel() {
-    private val _selectedBreeds = MutableStateFlow<Set<String>>(emptySet())
-    val selectedBreeds: StateFlow<Set<String>> = _selectedBreeds
+) : MoleculeViewModel<Event, AsyncResult<FavoritesModel>>() {
 
-    val favoriteImagesState = getFavoriteImagesUseCase().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = AsyncResult.Loading
-    )
-
-    fun toggleSelectedBreed(breed: String) {
-        _selectedBreeds.value = _selectedBreeds.value.toMutableSet().apply {
-            if (contains(breed)) remove(breed) else add(breed)
-        }
+    @Composable
+    override fun models(events: Flow<Event>): AsyncResult<FavoritesModel> {
+        return FavoritesPresenter(
+            events = events,
+            favoriteImagesFlow = getFavoriteImagesUseCase()
+        )
     }
 
-    val favoriteCount: StateFlow<Int> = favoriteImagesState.map {
+    fun toggleBreedFilter(breed: FilterChipInfo) {
+        take(Event.ToggleSelectedBreed(breed))
+    }
+
+    val favoriteCount: StateFlow<Int> = getFavoriteImagesUseCase().map {
         when (it) {
             is AsyncResult.Success -> it.data.size
             else -> 0
@@ -51,4 +49,5 @@ class FavoritesViewModel @Inject constructor(
             toggleFavoriteUseCase(breedImage)
         }
     }
+
 }
