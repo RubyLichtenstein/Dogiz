@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.rubylichtenstein.ui.favorites
 
 import androidx.compose.foundation.horizontalScroll
@@ -16,68 +18,51 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.rubylichtenstein.domain.common.capitalizeWords
+import com.rubylichtenstein.domain.common.AsyncResult
+import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.ui.common.AsyncStateHandler
 import com.rubylichtenstein.ui.images.DogImagesGrid
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
     navController: NavController,
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
-    val favoriteImages by viewModel.favoriteImagesState.collectAsStateWithLifecycle()
+    val uiState by viewModel.models.collectAsStateWithLifecycle()
 
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    PureFavoritesScreen(
+        state = uiState,
+        navController = navController,
+        onToggleSelectedBreed = { viewModel.toggleBreedFilter(it) },
+        onToggleFavorite = { viewModel.toggleFavorite(it) }
+    )
+}
 
-    val selectedBreeds by viewModel.selectedBreeds.collectAsStateWithLifecycle()
+@Composable
+fun PureFavoritesScreen(
+    state: AsyncResult<FavoritesModel>,
+    navController: NavController,
+    onToggleSelectedBreed: (FilterChipInfo) -> Unit,
+    onToggleFavorite: (DogImageEntity) -> Unit
+) {
+
+    val scrollBehavior = TopAppBarDefaults
+        .exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        "Favorites",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
+            TopBar(navController, scrollBehavior)
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            com.rubylichtenstein.ui.common.AsyncStateHandler(favoriteImages) { favoriteImages ->
-                val breeds = favoriteImages.map { it.breedName }.distinct()
-
-                if (favoriteImages.isEmpty()) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("No favorites yet")
-                    }
+            AsyncStateHandler(state) {
+                if (it.dogImages.isEmpty()) {
+                    EmptyScreen()
                 } else {
                     Column {
-                        BreedFilter(breeds, selectedBreeds, viewModel::toggleSelectedBreed)
-                        val filteredImages = if (selectedBreeds.isEmpty()) {
-                            favoriteImages
-                        } else {
-                            favoriteImages.filter { it.breedName in selectedBreeds }
-                        }
-
-                        DogImagesGrid(
-                            images = filteredImages
-                        ) { dogImage -> viewModel.toggleFavorite(dogImage) }
+                        BreedFilter(it.filterChipsInfo, onToggleSelectedBreed)
+                        DogImagesGrid(images = it.dogImages, onToggleFavorite = onToggleFavorite)
                     }
                 }
             }
@@ -86,11 +71,46 @@ fun FavoritesScreen(
 }
 
 @Composable
+private fun EmptyScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("No favorites yet")
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun TopBar(
+    navController: NavController,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
+    LargeTopAppBar(
+        title = {
+            Text(
+                "Favorites",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                )
+            }
+        },
+        scrollBehavior = scrollBehavior
+    )
+}
+
+@Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun BreedFilter(
-    breeds: List<String>,
-    selectedBreeds: Set<String>,
-    onToggleSelectedBreed: (String) -> Unit
+    breeds: Set<FilterChipInfo>,
+    onToggleSelectedBreed: (FilterChipInfo) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -99,11 +119,11 @@ private fun BreedFilter(
     ) {
         breeds.forEach { breed ->
             FilterChip(
-                selected = selectedBreeds.contains(breed),
+                selected = breed.selected,
                 onClick = { onToggleSelectedBreed(breed) },
-                label = { Text(breed.capitalizeWords()) },
+                label = { Text(breed.label) },
                 trailingIcon = {
-                    if (selectedBreeds.contains(breed)) {
+                    if (breed.selected) {
                         Icon(Icons.Default.Check, contentDescription = null)
                     }
                 }

@@ -9,4 +9,5 @@ plugins {
     id("com.android.library") version "8.1.1" apply false
     id("jacoco")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
+    id("app.cash.molecule") version "1.2.1"
 }
