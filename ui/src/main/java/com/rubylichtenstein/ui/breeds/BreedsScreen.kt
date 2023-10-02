@@ -26,9 +26,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.rubylichtenstein.domain.breeds.BreedEntity
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.common.capitalizeWords
 import com.rubylichtenstein.ui.Screen
+import com.rubylichtenstein.ui.common.AsyncResult
 import com.rubylichtenstein.ui.common.AsyncStateHandler
 
 @Composable
