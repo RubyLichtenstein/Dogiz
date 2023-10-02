@@ -1,7 +1,6 @@
 package com.rubylichtenstein.domain.favorites
 
 import app.cash.turbine.test
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
@@ -41,10 +40,9 @@ class GetFavoriteImagesUseCaseTest {
     @Test
     fun `when invoke is called, it should return favorite images from the repository`() = runTest {
         useCase.invoke().test {
-            Assertions.assertEquals(AsyncResult.Loading, awaitItem())
-            val initialState = awaitItem() as AsyncResult.Success
-            Assertions.assertEquals(1, initialState.data.size)
-            Assertions.assertEquals("sampleUrl2.com", initialState.data[0].url)
+            val initialState = awaitItem()
+            Assertions.assertEquals(1, initialState.size)
+            Assertions.assertEquals("sampleUrl2.com", initialState[0].url)
         }
     }
 }

@@ -3,8 +3,6 @@ package com.rubylichtenstein.data.images
 import com.rubylichtenstein.data.images.DogImageDataEntity.Companion.fromDogImageEntity
 import com.rubylichtenstein.data.images.DogImageDataEntity.Companion.toDogImageEntity
 import com.rubylichtenstein.domain.breeds.buildDisplayNameFromKey
-import com.rubylichtenstein.domain.common.AsyncResult
-import com.rubylichtenstein.domain.common.asAsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
 import com.rubylichtenstein.domain.images.ImagesRepository
 import kotlinx.coroutines.flow.Flow
@@ -19,11 +17,10 @@ class ImagesRepositoryImpl @Inject constructor(
     private val dogBreedApiService: BreedImagesApi,
     private val imagesDataStore: DogImageDao
 ) : ImagesRepository {
-    override fun getImagesByBreed(breedKey: String): Flow<AsyncResult<List<DogImageEntity>>> =
+    override fun getImagesByBreed(breedKey: String): Flow<List<DogImageEntity>> =
         getImagesByBreedFromLocal(breedKey)
             .onStart { fetchAndSave(breedKey) }
             .distinctUntilChanged()
-            .asAsyncResult()
 
     private suspend fun fetchAndSave(breedKey: String) {
         val remoteData = getRemoteBreedImages(breedKey).getOrThrow()

@@ -1,7 +1,5 @@
 package com.rubylichtenstein.domain.favorites
 
-import com.rubylichtenstein.domain.common.AsyncResult
-import com.rubylichtenstein.domain.common.asAsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,10 +11,10 @@ class FakeFavoritesRepository(
 
     private val _images = MutableStateFlow(initialDogImages)
 
-    override val favoriteImagesFlow: Flow<AsyncResult<List<DogImageEntity>>> =
+    override val favoriteImagesFlow: Flow<List<DogImageEntity>> =
         _images.map { images ->
             images.filter { it.isFavorite }
-        }.asAsyncResult()
+        }
 
     override suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean) {
         val currentImages = _images.value.toMutableList()

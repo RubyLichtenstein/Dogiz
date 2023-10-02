@@ -1,7 +1,6 @@
 package com.rubylichtenstein.domain.images
 
 import app.cash.turbine.test
-import com.rubylichtenstein.domain.common.AsyncResult
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -39,9 +38,8 @@ class GetBreedImagesUseCaseTest {
     @Test
     operator fun invoke() = runTest {
         useCase.invoke("Dog").test {
-            Assertions.assertEquals(AsyncResult.Loading, awaitItem())
-            val initialState = awaitItem() as AsyncResult.Success
-            Assertions.assertEquals(2, initialState.data.size)
+            val initialState = awaitItem()
+            Assertions.assertEquals(2, initialState.size)
         }
     }
 }

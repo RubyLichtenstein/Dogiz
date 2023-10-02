@@ -6,87 +6,81 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.ui.common.AsyncResult
+import com.rubylichtenstein.ui.common.asAsyncResult
+import com.rubylichtenstein.ui.common.mapSuccess
 import kotlinx.coroutines.flow.Flow
 
-data class FilterChipInfo(
+data class ChipInfo(
     val label: String,
     val selected: Boolean,
 )
 
 data class FavoritesModel(
     val dogImages: List<DogImageEntity>,
-    val filterChipsInfo: Set<FilterChipInfo>,
+    val filterChipsInfo: Set<ChipInfo>,
 )
 
 sealed interface Event {
-    data class ToggleSelectedBreed(val breed: FilterChipInfo) : Event
+    data class ToggleSelectedBreed(val breed: ChipInfo) : Event
 }
 
 @Composable
 fun FavoritesPresenter(
     events: Flow<Event>,
-    favoriteImagesFlow: Flow<AsyncResult<List<DogImageEntity>>>
+    favoriteImagesFlow: Flow<List<DogImageEntity>>
 ): AsyncResult<FavoritesModel> {
-    var favoriteImages by remember { mutableStateOf(AsyncResult.Loading as AsyncResult<List<DogImageEntity>>) }
-    var filterChips by remember { mutableStateOf(emptySet<FilterChipInfo>()) }
-
-    fun getSelectedBreeds(): Set<String> {
-        return filterChips.filter { it.selected }.map { it.label }.toSet()
+    var favoriteImages by remember {
+        mutableStateOf<AsyncResult<List<DogImageEntity>>>(
+            AsyncResult.Loading
+        )
     }
 
-    LaunchedEffect(favoriteImagesFlow) {
-        favoriteImagesFlow.collect { result ->
-            favoriteImages = result
-            if (result is AsyncResult.Success) {
-                filterChips = buildFilterChipsInfo(result.data, getSelectedBreeds())
+    var filteredBreeds by remember {
+        mutableStateOf(emptySet<String>())
+    }
+
+    LaunchedEffect(Unit) {
+        favoriteImagesFlow
+            .asAsyncResult()
+            .collect { images ->
+                favoriteImages = images
             }
-        }
     }
 
-    LaunchedEffect(events) {
+    LaunchedEffect(Unit) {
         events.collect { event ->
             if (event is Event.ToggleSelectedBreed) {
                 val toggleBreed = event.breed
-                filterChips = filterChips.map {
-                    if (it.label == toggleBreed.label) it.copy(selected = !toggleBreed.selected)
-                    else it
-                }.toSet()
+                filteredBreeds = if (toggleBreed.selected) {
+                    filteredBreeds - toggleBreed.label
+                } else {
+                    filteredBreeds + toggleBreed.label
+                }
             }
         }
     }
 
-    return when (val images = favoriteImages) {
-        is AsyncResult.Success -> {
-            val filteredImages = images.data.filter {
-                val selectedBreeds = getSelectedBreeds()
-                selectedBreeds.isEmpty() || it.breedName in selectedBreeds
-            }
-            AsyncResult.Success(
-                FavoritesModel(
-                    dogImages = filteredImages,
-                    filterChipsInfo = filterChips
-                )
-            )
+    val images = favoriteImages
+    return images.mapSuccess {
+        val filteredImages = it.filter {
+            val selectedBreeds = filteredBreeds
+            selectedBreeds.isEmpty() || it.breedName in selectedBreeds
         }
 
-        is AsyncResult.Error -> AsyncResult.Error()
-        else -> AsyncResult.Loading
-    }
-}
-
-fun buildFilterChipsInfo(
-    dogImages: List<DogImageEntity>,
-    selectedBreeds: Set<String>
-): Set<FilterChipInfo> {
-    return dogImages
-        .map { it.breedName }
-        .distinct()
-        .map { name ->
-            FilterChipInfo(
-                label = name,
-                selected = name in selectedBreeds
+        val chipsLabels = it.map { it.breedName }.toSet()
+        val filterChipsInfo = chipsLabels.map { label ->
+            ChipInfo(
+                label = label,
+                selected = label in filteredBreeds
             )
         }.toSet()
+
+
+        FavoritesModel(
+            dogImages = filteredImages,
+            filterChipsInfo = filterChipsInfo
+        )
+    }
 }

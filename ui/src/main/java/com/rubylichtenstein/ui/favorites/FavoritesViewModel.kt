@@ -2,10 +2,10 @@ package com.rubylichtenstein.ui.favorites
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.favorites.GetFavoriteImagesUseCase
 import com.rubylichtenstein.domain.favorites.ToggleFavoriteUseCase
 import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.ui.common.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,15 +29,12 @@ class FavoritesViewModel @Inject constructor(
         )
     }
 
-    fun toggleBreedFilter(breed: FilterChipInfo) {
+    fun toggleBreedFilter(breed: ChipInfo) {
         take(Event.ToggleSelectedBreed(breed))
     }
 
     val favoriteCount: StateFlow<Int> = getFavoriteImagesUseCase().map {
-        when (it) {
-            is AsyncResult.Success -> it.data.size
-            else -> 0
-        }
+        it.size
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),

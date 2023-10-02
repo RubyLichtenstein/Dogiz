@@ -1,4 +1,4 @@
-package com.rubylichtenstein.domain.common
+package com.rubylichtenstein.ui.common
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
