@@ -31,7 +31,7 @@ fun FavoritesPresenter(
     events: Flow<Event>,
     favoriteImagesFlow: Flow<List<DogImageEntity>>
 ): AsyncResult<FavoritesModel> {
-    var favoriteImages by remember {
+    var favoriteImagesResult by remember {
         mutableStateOf<AsyncResult<List<DogImageEntity>>>(
             AsyncResult.Loading
         )
@@ -45,7 +45,11 @@ fun FavoritesPresenter(
         favoriteImagesFlow
             .asAsyncResult()
             .collect { images ->
-                favoriteImages = images
+                favoriteImagesResult = images
+                if (images is AsyncResult.Success) {
+                    val chipsLabels = images.data.map { it.breedName }.toSet()
+                    filteredBreeds = filteredBreeds.intersect(chipsLabels)
+                }
             }
     }
 
@@ -62,14 +66,12 @@ fun FavoritesPresenter(
         }
     }
 
-    val images = favoriteImages
-    return images.mapSuccess {
-        val filteredImages = it.filter {
-            val selectedBreeds = filteredBreeds
-            selectedBreeds.isEmpty() || it.breedName in selectedBreeds
+    return favoriteImagesResult.mapSuccess { favoriteImages ->
+        val chipsLabels = favoriteImages.map { it.breedName }.toSet()
+        val filteredImages = favoriteImages.filter {
+            filteredBreeds.isEmpty() || it.breedName in filteredBreeds
         }
 
-        val chipsLabels = it.map { it.breedName }.toSet()
         val filterChipsInfo = chipsLabels.map { label ->
             ChipInfo(
                 label = label,
