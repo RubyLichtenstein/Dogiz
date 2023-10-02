@@ -2,9 +2,7 @@ package com.rubylichtenstein.domain.breeds
 
 import com.rubylichtenstein.domain.breeds.data.BreedInfo
 import com.rubylichtenstein.domain.breeds.data.BreedsRepository
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.common.capitalizeWords
-import com.rubylichtenstein.domain.common.mapSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -13,10 +11,8 @@ class GetBreedsUseCase @Inject constructor(
     private val breedsRepository: BreedsRepository
 ) {
 
-    operator fun invoke(): Flow<AsyncResult<List<BreedEntity>>> {
-        return breedsRepository.breedsFlow.map {
-            it.mapSuccess { data -> mapInfoToItems(data) }
-        }
+    operator fun invoke(): Flow<List<BreedEntity>> {
+        return breedsRepository.breedsFlow.map(::mapInfoToItems)
     }
 
     private fun mapInfoToItems(

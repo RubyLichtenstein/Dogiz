@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.ui.common.AsyncResult
 import com.rubylichtenstein.ui.common.AsyncStateHandler
 import com.rubylichtenstein.ui.images.DogImagesGrid
 
@@ -42,7 +42,7 @@ fun FavoritesScreen(
 fun PureFavoritesScreen(
     state: AsyncResult<FavoritesModel>,
     navController: NavController,
-    onToggleSelectedBreed: (FilterChipInfo) -> Unit,
+    onToggleSelectedBreed: (ChipInfo) -> Unit,
     onToggleFavorite: (DogImageEntity) -> Unit
 ) {
 
@@ -109,8 +109,8 @@ private fun TopBar(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun BreedFilter(
-    breeds: Set<FilterChipInfo>,
-    onToggleSelectedBreed: (FilterChipInfo) -> Unit
+    breeds: Set<ChipInfo>,
+    onToggleSelectedBreed: (ChipInfo) -> Unit
 ) {
     Row(
         modifier = Modifier

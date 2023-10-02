@@ -1,7 +1,6 @@
 package com.rubylichtenstein.domain.favorites
 
 import app.cash.turbine.test
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -37,24 +36,23 @@ class ToggleFavoriteUseCaseTest {
 
         // Act
         fakeFavoritesRepository.favoriteImagesFlow.test {
-            assertEquals(AsyncResult.Loading, awaitItem())
 
-            val initialState = awaitItem() as AsyncResult.Success
-            assertEquals(1, initialState.data.size)
-            assertEquals("sampleUrl2.com", initialState.data[0].url)
+            val initialState = awaitItem()
+            assertEquals(1, initialState.size)
+            assertEquals("sampleUrl2.com", initialState[0].url)
 
             toggleFavoriteUseCase(element1)
             // After toggling, both images should be favorite
-            val afterToggle1 = awaitItem() as AsyncResult.Success
-            assertEquals(2, afterToggle1.data.size)
-            assertEquals("sampleUrl1.com", afterToggle1.data[0].url)
-            assertEquals("sampleUrl2.com", afterToggle1.data[1].url)
+            val afterToggle1 = awaitItem()
+            assertEquals(2, afterToggle1.size)
+            assertEquals("sampleUrl1.com", afterToggle1[0].url)
+            assertEquals("sampleUrl2.com", afterToggle1[1].url)
 
             toggleFavoriteUseCase(element2)
             // After toggling again, only the first image should remain as favorite
-            val afterToggle2 = awaitItem() as AsyncResult.Success
-            assertEquals(1, afterToggle2.data.size)
-            assertEquals("sampleUrl1.com", afterToggle2.data[0].url)
+            val afterToggle2 = awaitItem()
+            assertEquals(1, afterToggle2.size)
+            assertEquals("sampleUrl1.com", afterToggle2[0].url)
 
             cancelAndConsumeRemainingEvents() // End the test
         }

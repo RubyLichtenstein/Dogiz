@@ -2,10 +2,11 @@ package com.rubylichtenstein.ui.images
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.images.DogImageEntity
 import com.rubylichtenstein.domain.images.GetBreedImagesUseCase
 import com.rubylichtenstein.domain.images.buildBreedKey
+import com.rubylichtenstein.ui.common.AsyncResult
+import com.rubylichtenstein.ui.common.asAsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,7 @@ class ImagesViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             getImagesByBreedUseCase(breedKey)
+                .asAsyncResult()
                 .collect { state -> _dogImagesState.value = state }
         }
     }

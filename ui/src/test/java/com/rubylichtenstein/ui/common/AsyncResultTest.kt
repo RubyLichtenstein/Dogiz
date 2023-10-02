@@ -1,4 +1,4 @@
-package com.rubylichtenstein.domain.common
+package com.rubylichtenstein.ui.common
 
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf

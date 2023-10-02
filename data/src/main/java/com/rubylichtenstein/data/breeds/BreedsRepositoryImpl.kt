@@ -1,8 +1,6 @@
 package com.rubylichtenstein.data.breeds
 
-import com.rubylichtenstein.domain.common.AsyncResult
 import com.rubylichtenstein.domain.breeds.data.BreedsRepository
-import com.rubylichtenstein.domain.common.asAsyncResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -15,7 +13,7 @@ class BreedsRepositoryImpl @Inject constructor(
     private val breedsDataStore: BreedsDataStore
 ) : BreedsRepository {
 
-    override val breedsFlow: Flow<AsyncResult<List<BreedInfoImpl>>> = flow {
+    override val breedsFlow: Flow<List<BreedInfoImpl>> = flow {
         // Try fetching from local first
         val localBreeds = getBreedsFromLocal()
         if (localBreeds != null) {
@@ -33,7 +31,7 @@ class BreedsRepositoryImpl @Inject constructor(
                 throw exception
             }
         }
-    }.asAsyncResult()
+    }
 
     private suspend fun getBreedsFromLocal(): List<BreedInfoImpl>? {
         return breedsDataStore.get.first()
