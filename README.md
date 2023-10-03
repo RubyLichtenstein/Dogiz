@@ -7,7 +7,7 @@
   <a href="https://codecov.io/github/RubyLichtenstein/Dogiz"><img alt="codecov" src="https://codecov.io/github/RubyLichtenstein/Dogiz/graph/badge.svg?token=0cHmYjFWnV"/></a>
 </p>
 
-<h3 align="center">A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, Clean Architecture, Hilt, Ktor Client, Material 3, Kotlin Serialization, Coil-Compose, Room, DataStore Core, Turbine, JUnit5, and Molecule.</h3>
+<h3 align="center">A Contemporary Showcase of Android Clean Architecture  Development Using Kotlin, Jetpack Compose, Flow, Hilt, Ktor, Material 3, Room, Turbine, and Molecule.</h3>
 
 Welcome to "Dogiz," your go-to example for modern Android development. Inspired
 by [Now in Android](https://github.com/android/nowinandroid), we've simplified complex practices for
