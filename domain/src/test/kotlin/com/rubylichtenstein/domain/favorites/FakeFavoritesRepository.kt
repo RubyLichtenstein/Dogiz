@@ -1,17 +1,17 @@
 package com.rubylichtenstein.domain.favorites
 
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FakeFavoritesRepository(
-    initialDogImages: List<DogImageEntity>
+    initialDogImages: List<DogImage>
 ) : FavoritesRepository {
 
     private val _images = MutableStateFlow(initialDogImages)
 
-    override val favoriteImagesFlow: Flow<List<DogImageEntity>> =
+    override val favoriteImagesFlow: Flow<List<DogImage>> =
         _images.map { images ->
             images.filter { it.isFavorite }
         }

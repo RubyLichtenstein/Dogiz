@@ -2,7 +2,7 @@ package com.rubylichtenstein.ui.images
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import com.rubylichtenstein.domain.images.GetBreedImagesUseCase
 import com.rubylichtenstein.domain.images.buildBreedKey
 import com.rubylichtenstein.ui.common.AsyncResult
@@ -20,8 +20,8 @@ class ImagesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _dogImagesState =
-        MutableStateFlow<AsyncResult<List<DogImageEntity>>>(AsyncResult.Loading)
-    val dogImagesState: StateFlow<AsyncResult<List<DogImageEntity>>> get() = _dogImagesState
+        MutableStateFlow<AsyncResult<List<DogImage>>>(AsyncResult.Loading)
+    val dogImagesState: StateFlow<AsyncResult<List<DogImage>>> get() = _dogImagesState
 
     fun fetchDogImages(breed: String, subBreed: String?) {
         val breedKey = buildBreedKey(subBreed, breed)

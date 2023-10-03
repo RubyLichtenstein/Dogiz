@@ -3,7 +3,7 @@ package com.rubylichtenstein.data.images
 import com.rubylichtenstein.data.images.DogImageDataEntity.Companion.fromDogImageEntity
 import com.rubylichtenstein.data.images.DogImageDataEntity.Companion.toDogImageEntity
 import com.rubylichtenstein.domain.breeds.buildDisplayNameFromKey
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import com.rubylichtenstein.domain.images.ImagesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -17,7 +17,7 @@ class ImagesRepositoryImpl @Inject constructor(
     private val dogBreedApiService: BreedImagesApi,
     private val imagesDataStore: DogImageDao
 ) : ImagesRepository {
-    override fun getImagesByBreed(breedKey: String): Flow<List<DogImageEntity>> =
+    override fun getImagesByBreed(breedKey: String): Flow<List<DogImage>> =
         getImagesByBreedFromLocal(breedKey)
             .onStart { fetchAndSave(breedKey) }
             .distinctUntilChanged()
@@ -27,10 +27,10 @@ class ImagesRepositoryImpl @Inject constructor(
         imagesDataStore.insertAll(remoteData.map { it.fromDogImageEntity() })
     }
 
-    private suspend fun getRemoteBreedImages(breedKey: String): Result<List<DogImageEntity>> {
+    private suspend fun getRemoteBreedImages(breedKey: String): Result<List<DogImage>> {
         return dogBreedApiService.getBreedImages(breedKey).map {
             it.map { url ->
-                DogImageEntity(
+                DogImage(
                     breedName = buildDisplayNameFromKey(breedKey),
                     isFavorite = false,
                     url = url,
@@ -40,7 +40,7 @@ class ImagesRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getImagesByBreedFromLocal(breedKey: String): Flow<List<DogImageEntity>> {
+    private fun getImagesByBreedFromLocal(breedKey: String): Flow<List<DogImage>> {
         return imagesDataStore.getDogImagesByBreedKey(breedKey).map {
             it.map { entity ->
                 entity.toDogImageEntity()

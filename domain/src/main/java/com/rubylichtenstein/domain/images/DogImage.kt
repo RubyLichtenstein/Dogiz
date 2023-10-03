@@ -1,6 +1,6 @@
 package com.rubylichtenstein.domain.images
 
-data class DogImageEntity(
+data class DogImage(
     val breedName: String,
     val breedKey: String,
     val isFavorite: Boolean,

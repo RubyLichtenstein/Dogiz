@@ -7,7 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 
 @Entity(tableName = "dog_images")
 data class DogImageDataEntity(
@@ -18,7 +18,7 @@ data class DogImageDataEntity(
     @ColumnInfo(name = "breed_key") val breedKey: String
 ) {
     companion object {
-        fun DogImageEntity.fromDogImageEntity(): DogImageDataEntity {
+        fun DogImage.fromDogImageEntity(): DogImageDataEntity {
             return DogImageDataEntity(
                 url = url,
                 breedName = breedName,
@@ -27,8 +27,8 @@ data class DogImageDataEntity(
             )
         }
 
-        fun DogImageDataEntity.toDogImageEntity(): DogImageEntity {
-            return DogImageEntity(
+        fun DogImageDataEntity.toDogImageEntity(): DogImage {
+            return DogImage(
                 url = url,
                 breedName = breedName,
                 isFavorite = isFavorite,

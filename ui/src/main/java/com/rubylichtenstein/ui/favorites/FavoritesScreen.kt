@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import com.rubylichtenstein.ui.common.AsyncResult
 import com.rubylichtenstein.ui.common.AsyncStateHandler
 import com.rubylichtenstein.ui.images.DogImagesGrid
@@ -43,7 +43,7 @@ fun PureFavoritesScreen(
     state: AsyncResult<FavoritesModel>,
     navController: NavController,
     onToggleSelectedBreed: (ChipInfo) -> Unit,
-    onToggleFavorite: (DogImageEntity) -> Unit
+    onToggleFavorite: (DogImage) -> Unit
 ) {
 
     val scrollBehavior = TopAppBarDefaults

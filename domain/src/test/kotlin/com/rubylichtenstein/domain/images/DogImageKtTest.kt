@@ -3,7 +3,7 @@ package com.rubylichtenstein.domain.images
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class DogImageEntityKtTest {
+class DogImageKtTest {
 
     @Test
     fun `when subBreed is null, only breed should be returned`() {

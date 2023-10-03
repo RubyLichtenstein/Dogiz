@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import com.rubylichtenstein.ui.common.AsyncResult
 import com.rubylichtenstein.ui.common.asAsyncResult
 import com.rubylichtenstein.ui.common.mapSuccess
@@ -18,7 +18,7 @@ data class ChipInfo(
 )
 
 data class FavoritesModel(
-    val dogImages: List<DogImageEntity>,
+    val dogImages: List<DogImage>,
     val filterChipsInfo: Set<ChipInfo>,
 )
 
@@ -29,17 +29,10 @@ sealed interface Event {
 @Composable
 fun FavoritesPresenter(
     events: Flow<Event>,
-    favoriteImagesFlow: Flow<List<DogImageEntity>>
+    favoriteImagesFlow: Flow<List<DogImage>>
 ): AsyncResult<FavoritesModel> {
-    var favoriteImagesResult by remember {
-        mutableStateOf<AsyncResult<List<DogImageEntity>>>(
-            AsyncResult.Loading
-        )
-    }
-
-    var filteredBreeds by remember {
-        mutableStateOf(emptySet<String>())
-    }
+    var favoriteImagesResult by remember { mutableStateOf<AsyncResult<List<DogImage>>>(AsyncResult.Loading) }
+    var filteredBreeds by remember { mutableStateOf(emptySet<String>()) }
 
     LaunchedEffect(Unit) {
         favoriteImagesFlow

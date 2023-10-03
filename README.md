@@ -27,6 +27,8 @@ Anyone keen to dive into modern Android development—Dogiz is your guide!
 
 ![screenshots](./art/screenshots.png)
 
+![app](./art/gifs/dogiz-gif2.gif)
+
 ## 🧱 Clean Architecture in Android with Kotlin
 
 ### Clean Architecture in Android prioritizes:

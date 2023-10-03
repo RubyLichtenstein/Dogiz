@@ -26,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 
 @Composable
 fun DogImagesGrid(
-    images: List<DogImageEntity>,
-    onToggleFavorite: (DogImageEntity) -> Unit
+    images: List<DogImage>,
+    onToggleFavorite: (DogImage) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -50,8 +50,8 @@ fun DogImagesGrid(
 
 @Composable
 fun DogImageItem(
-    breedImage: DogImageEntity,
-    onToggleFavorite: (DogImageEntity) -> Unit,
+    breedImage: DogImage,
+    onToggleFavorite: (DogImage) -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxSize(),

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
 import com.rubylichtenstein.domain.favorites.GetFavoriteImagesUseCase
 import com.rubylichtenstein.domain.favorites.ToggleFavoriteUseCase
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import com.rubylichtenstein.ui.common.AsyncResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +41,7 @@ class FavoritesViewModel @Inject constructor(
         initialValue = 0
     )
 
-    fun toggleFavorite(breedImage: DogImageEntity) {
+    fun toggleFavorite(breedImage: DogImage) {
         viewModelScope.launch {
             toggleFavoriteUseCase(breedImage)
         }

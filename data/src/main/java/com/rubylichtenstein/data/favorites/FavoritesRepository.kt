@@ -3,7 +3,7 @@ package com.rubylichtenstein.data.favorites
 import com.rubylichtenstein.data.images.DogImageDao
 import com.rubylichtenstein.data.images.DogImageDataEntity.Companion.toDogImageEntity
 import com.rubylichtenstein.domain.favorites.FavoritesRepository
-import com.rubylichtenstein.domain.images.DogImageEntity
+import com.rubylichtenstein.domain.images.DogImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +16,7 @@ class FavoritesRepositoryImpl @Inject constructor(
     private val imagesDao: DogImageDao
 ) : FavoritesRepository {
 
-    override val favoriteImagesFlow: Flow<List<DogImageEntity>> =
+    override val favoriteImagesFlow: Flow<List<DogImage>> =
         imagesDao.getFavoriteDogImages().map { it.map { it.toDogImageEntity() } }
 
     override suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean) {
