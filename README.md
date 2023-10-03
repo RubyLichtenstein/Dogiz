@@ -1,5 +1,6 @@
-<h1 align="center">🐾🐶✨ Dogiz: A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, and Clean Architecture.</h1>
+<h1 align="center">🐾🐶✨ Dogiz</h1>
 
+<h1 align="center">A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, Clean Architecture, Hilt, Ktor Client, Material 3, Kotlin Serialization, Coil-Compose, Room, DataStore Core, Turbine, JUnit5, and Molecule.</h1>
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
@@ -27,7 +28,7 @@ Anyone keen to dive into modern Android development—Dogiz is your guide!
 
 ![screenshots](./art/screenshots.png)
 
-![app](./art/gifs/dogiz-gif2.gif)
+[//]: # (![app]&#40;./art/gifs/dogiz-gif2.gif&#41;)
 
 ## 🧱 Clean Architecture in Android with Kotlin
 
@@ -106,15 +107,18 @@ Hilt takes dependency management to the next level:
 "Dogiz" incorporates the latest libraries and tools:
 
 - **Kotlin Coroutines**: For efficient asynchronous programming.
-  -**Kotlin Flow**: Managing async data streams.
+- **Kotlin Flow**: Managing async data streams.
 - **Hilt**: For injecting dependencies.
 - **Ktor Client**: Handling APIs.
-- **Jetpack Compose & Navigation-Compose**: Crafting UI & navigation.
+- **Jetpack Compose UI & Compose-Navigation**: Crafting UI & navigation.
 - **Material 3**: Modern UI aesthetics.
 - **Kotlin Serialization**: Parsing data.
 - **Coil-Compose**: Loading images.
 - **Room**: Local database management.
 - **DataStore Core**: Storing preferences locally.
+- **Turbine**: A small testing library for Flow.
+- **JUnit5**: Widely used testing framework for the JVM.
+- **Molecule**: Build a StateFlow or Flow stream using Jetpack Compose.
 
 ---
 
