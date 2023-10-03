@@ -1,12 +1,13 @@
 <h1 align="center">🐾🐶✨ Dogiz</h1>
 
-<h1 align="center">A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, Clean Architecture, Hilt, Ktor Client, Material 3, Kotlin Serialization, Coil-Compose, Room, DataStore Core, Turbine, JUnit5, and Molecule.</h1>
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
   <a href="https://github.com/RubyLichtenstein/Dogiz/actions"><img alt="Build Status" src="https://github.com/RubyLichtenstein/Dogiz/workflows/Android%20CI/badge.svg"/></a>
   <a href="https://codecov.io/github/RubyLichtenstein/Dogiz"><img alt="codecov" src="https://codecov.io/github/RubyLichtenstein/Dogiz/graph/badge.svg?token=0cHmYjFWnV"/></a>
 </p>
+
+<h3 align="center">A Contemporary Showcase of Android Development Using Kotlin, Jetpack Compose, Flow, Clean Architecture, Hilt, Ktor Client, Material 3, Kotlin Serialization, Coil-Compose, Room, DataStore Core, Turbine, JUnit5, and Molecule.</h3>
 
 Welcome to "Dogiz," your go-to example for modern Android development. Inspired
 by [Now in Android](https://github.com/android/nowinandroid), we've simplified complex practices for
