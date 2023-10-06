@@ -7,7 +7,7 @@ import javax.inject.Inject
 const val BASE_URL = "https://dog.ceo/api/"
 
 interface BreedImagesApi {
-    suspend fun getBreedImages(breed: String): Result<List<String>>
+    suspend fun getBreedImages(breed: String): List<String>
 }
 
 class BreedImagesApiImpl @Inject constructor(
@@ -29,7 +29,7 @@ class BreedImagesApiImpl @Inject constructor(
      * 2. To get images for a sub-breed:
      *      getBreedImages("shepherd/australian")
      */
-    override suspend fun getBreedImages(breed: String): Result<List<String>> {
+    override suspend fun getBreedImages(breed: String): List<String> {
         return client.safeApiCall {
             get("${BASE_URL}breed/$breed/images")
         }

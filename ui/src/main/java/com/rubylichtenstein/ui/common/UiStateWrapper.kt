@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun <T> AsyncStateHandler(
-    asyncResult: AsyncResult<T>,
+fun <T> UiStateWrapper(
+    uiState: UiState<T>,
     onError: @Composable (String) -> Unit = { message ->
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -28,11 +28,21 @@ fun <T> AsyncStateHandler(
             CircularProgressIndicator()
         }
     },
+    onEmpty: @Composable (String) -> Unit = {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(
+                text = it,
+                modifier = Modifier.padding(16.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+    },
     onSuccess: @Composable (T) -> Unit
 ) {
-    when (asyncResult) {
-        is AsyncResult.Loading -> onLoading()
-        is AsyncResult.Success -> onSuccess(asyncResult.data)
-        is AsyncResult.Error -> onError(asyncResult.exception?.message ?: "Unknown error")
+    when (uiState) {
+        is UiState.Loading -> onLoading()
+        is UiState.Success -> onSuccess(uiState.data)
+        is UiState.Error -> onError(uiState.message ?: "Unknown error")
+        is UiState.Empty -> onEmpty(uiState.message ?: "No data")
     }
 }

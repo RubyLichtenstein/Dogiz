@@ -36,19 +36,19 @@ class KtorHttpClient {
 
     suspend inline fun <reified T : ApiResponse<U>, U> safeApiCall(
         apiCall: HttpClient.() -> HttpResponse
-    ): Result<U> = runCatching {
+    ): U {
         val response = apiCall.invoke(client)
-        when (response.status) {
+        return when (response.status) {
             HttpStatusCode.OK -> {
                 val obj = response.body<T>()
                 if (obj.status != "success") {
-                    throw Error("Server responded with status: ${obj.status}")
+                    error("Server responded with status: ${obj.status}")
                 } else {
                     obj.message
                 }
             }
 
-            else -> throw Error("An unknown or network error occurred")
+            else -> error("Server responded with status: ${response.status}")
         }
     }
 }

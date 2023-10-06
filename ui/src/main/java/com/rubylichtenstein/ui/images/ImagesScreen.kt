@@ -25,7 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.rubylichtenstein.domain.breeds.buildDisplayName
 import com.rubylichtenstein.domain.common.capitalizeWords
-import com.rubylichtenstein.ui.common.AsyncStateHandler
+import com.rubylichtenstein.ui.common.UiStateWrapper
 import com.rubylichtenstein.ui.favorites.FavoritesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,7 +70,7 @@ fun ImagesScreen(
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            AsyncStateHandler(dogImages) { dogImageList ->
+            UiStateWrapper(dogImages) { dogImageList ->
                 DogImagesGrid(
                     images = dogImageList
                 ) { dogImage -> favoritesViewModel.toggleFavorite(dogImage) }

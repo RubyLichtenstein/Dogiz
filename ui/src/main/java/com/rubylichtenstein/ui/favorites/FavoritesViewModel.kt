@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.rubylichtenstein.domain.favorites.GetFavoriteImagesUseCase
 import com.rubylichtenstein.domain.favorites.ToggleFavoriteUseCase
 import com.rubylichtenstein.domain.images.DogImage
-import com.rubylichtenstein.ui.common.AsyncResult
+import com.rubylichtenstein.ui.common.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,10 +19,10 @@ import javax.inject.Inject
 class FavoritesViewModel @Inject constructor(
     val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     val toggleFavoriteUseCase: ToggleFavoriteUseCase
-) : MoleculeViewModel<Event, AsyncResult<FavoritesModel>>() {
+) : MoleculeViewModel<Event, UiState<FavoritesModel>>() {
 
     @Composable
-    override fun models(events: Flow<Event>): AsyncResult<FavoritesModel> {
+    override fun models(events: Flow<Event>): UiState<FavoritesModel> {
         return FavoritesPresenter(
             events = events,
             favoriteImagesFlow = getFavoriteImagesUseCase()

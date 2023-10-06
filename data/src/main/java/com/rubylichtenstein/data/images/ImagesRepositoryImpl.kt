@@ -23,20 +23,18 @@ class ImagesRepositoryImpl @Inject constructor(
             .distinctUntilChanged()
 
     private suspend fun fetchAndSave(breedKey: String) {
-        val remoteData = getRemoteBreedImages(breedKey).getOrThrow()
+        val remoteData = getRemoteBreedImages(breedKey)
         imagesDataStore.insertAll(remoteData.map { it.fromDogImageEntity() })
     }
 
-    private suspend fun getRemoteBreedImages(breedKey: String): Result<List<DogImage>> {
-        return dogBreedApiService.getBreedImages(breedKey).map {
-            it.map { url ->
-                DogImage(
-                    breedName = buildDisplayNameFromKey(breedKey),
-                    isFavorite = false,
-                    url = url,
-                    breedKey = breedKey
-                )
-            }
+    private suspend fun getRemoteBreedImages(breedKey: String): List<DogImage> {
+        return dogBreedApiService.getBreedImages(breedKey).map { url ->
+            DogImage(
+                breedName = buildDisplayNameFromKey(breedKey),
+                isFavorite = false,
+                url = url,
+                breedKey = breedKey
+            )
         }
     }
 

@@ -8,54 +8,54 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.Locale
 
-class AsyncResultTest {
+class UiStateTest {
 
     @Test
     fun `mapSuccess returns Loading when source is Loading`() = runTest {
-        val source: AsyncResult<String> = AsyncResult.Loading
+        val source: UiState<String> = UiState.Loading
         val result = source.mapSuccess { it.uppercase(Locale.getDefault()) }
-        assertTrue(result is AsyncResult.Loading)
+        assertTrue(result is UiState.Loading)
     }
 
     @Test
     fun `mapSuccess transforms Success data`() = runTest {
-        val source: AsyncResult<String> = AsyncResult.Success("test")
+        val source: UiState<String> = UiState.Success("test")
         val result = source.mapSuccess { it.uppercase(Locale.getDefault()) }
-        assertTrue(result is AsyncResult.Success && result.data == "TEST")
+        assertTrue(result is UiState.Success && result.data == "TEST")
     }
 
     @Test
     fun `mapSuccess returns Error when source is Error`() = runTest {
-        val exception = Exception("Test Exception")
-        val source: AsyncResult<String> = AsyncResult.Error(exception)
+        val error = "Test Exception"
+        val source: UiState<String> = UiState.Error(message = error)
         val result = source.mapSuccess { it.uppercase(Locale.getDefault()) }
-        assertTrue(result is AsyncResult.Error && result.exception == exception)
+        assertTrue(result is UiState.Error && result.message == error)
     }
 
     @Test
     fun `asAsyncResult emits Loading at start`() = runTest {
-        val flow = flowOf("data").asAsyncResult().toList()
-        assertTrue(flow.first() is AsyncResult.Loading)
+        val flow = flowOf("data").asUiState().toList()
+        assertTrue(flow.first() is UiState.Loading)
     }
 
     @Test
     fun `asAsyncResult emits Success with data`() = runTest {
-        val flow = flowOf("data").asAsyncResult().toList()
+        val flow = flowOf("data").asUiState().toList()
         val result = flow.drop(1).first()
-        assertTrue(result is AsyncResult.Success && result.data == "data")
+        assertTrue(result is UiState.Success && result.data == "data")
     }
 
     @Test
     fun `asAsyncResult emits Error on exception`() = runTest {
-        val flow = flow<String> { throw Exception("Error") }.asAsyncResult().toList()
+        val flow = flow<String> { throw Exception("Error") }.asUiState().toList()
         val result = flow.drop(1).first()
-        assertTrue(result is AsyncResult.Error && result.exception?.message == "Error")
+        assertTrue(result is UiState.Error && result?.message == "Error")
     }
 
     @Test
     fun `asAsyncResult emits Error`() = runTest {
-        val flow = flow { emit(AsyncResult.Error(Exception("Error"))) }.toList()
+        val flow = flow { emit(UiState.Error("Error")) }.toList()
         val result = flow.first()
-        assertTrue(result.exception?.message == "Error")
+        assertTrue(result?.message == "Error")
     }
 }

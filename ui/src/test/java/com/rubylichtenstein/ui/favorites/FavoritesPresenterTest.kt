@@ -4,7 +4,7 @@ import app.cash.molecule.RecompositionMode
 import app.cash.molecule.moleculeFlow
 import app.cash.turbine.test
 import com.rubylichtenstein.domain.images.DogImage
-import com.rubylichtenstein.ui.common.AsyncResult
+import com.rubylichtenstein.ui.common.UiState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -23,7 +23,7 @@ class FavoritesPresenterTest {
         moleculeFlow(RecompositionMode.Immediate) {
             FavoritesPresenter(eventFlow, favoriteImagesFlow)
         }.test {
-            assertTrue(awaitItem() is AsyncResult.Loading)
+            assertTrue(awaitItem() is UiState.Loading)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -38,10 +38,10 @@ class FavoritesPresenterTest {
         moleculeFlow(RecompositionMode.Immediate) {
             FavoritesPresenter(eventFlow, favoriteImagesFlow)
         }.test {
-            assertTrue(awaitItem() is AsyncResult.Loading)
+            assertTrue(awaitItem() is UiState.Loading)
             val result = awaitItem()
-            assertTrue(result is AsyncResult.Error)
-            assertEquals("Error loading images", (result as AsyncResult.Error).exception?.message)
+            assertTrue(result is UiState.Error)
+            assertEquals("Error loading images", (result as UiState.Error)?.message)
             cancel()
         }
     }
@@ -91,8 +91,8 @@ class FavoritesPresenterTest {
         moleculeFlow(RecompositionMode.Immediate) {
             FavoritesPresenter(eventFlow, favoriteImagesFlow)
         }.test {
-            assertTrue(awaitItem() is AsyncResult.Loading)
-            assertTrue(awaitItem() is AsyncResult.Success)
+            assertTrue(awaitItem() is UiState.Loading)
+            assertTrue(awaitItem() is UiState.Success)
             cancel()
         }
     }
@@ -133,8 +133,8 @@ class FavoritesPresenterTest {
         moleculeFlow(RecompositionMode.Immediate) {
             FavoritesPresenter(eventFlow, favoriteImagesFlow)
         }.test {
-            assertTrue(awaitItem() is AsyncResult.Loading)
-            assertTrue(awaitItem() is AsyncResult.Error)
+            assertTrue(awaitItem() is UiState.Loading)
+            assertTrue(awaitItem() is UiState.Error)
             cancel()
         }
     }
@@ -147,8 +147,8 @@ class FavoritesPresenterTest {
         moleculeFlow(RecompositionMode.Immediate) {
             FavoritesPresenter(eventFlow, favoriteImagesFlow)
         }.test {
-            assertTrue(awaitItem() is AsyncResult.Loading)
-            val result = awaitItem() as AsyncResult.Success
+            assertTrue(awaitItem() is UiState.Loading)
+            val result = awaitItem() as UiState.Success
             assertTrue(result.data.dogImages.isEmpty())
             cancel()
         }

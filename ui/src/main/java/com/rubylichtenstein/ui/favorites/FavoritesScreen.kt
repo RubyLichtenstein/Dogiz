@@ -19,8 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.rubylichtenstein.domain.images.DogImage
-import com.rubylichtenstein.ui.common.AsyncResult
-import com.rubylichtenstein.ui.common.AsyncStateHandler
+import com.rubylichtenstein.ui.common.UiState
+import com.rubylichtenstein.ui.common.UiStateWrapper
 import com.rubylichtenstein.ui.images.DogImagesGrid
 
 @Composable
@@ -40,7 +40,7 @@ fun FavoritesScreen(
 
 @Composable
 fun PureFavoritesScreen(
-    state: AsyncResult<FavoritesModel>,
+    state: UiState<FavoritesModel>,
     navController: NavController,
     onToggleSelectedBreed: (ChipInfo) -> Unit,
     onToggleFavorite: (DogImage) -> Unit
@@ -56,7 +56,7 @@ fun PureFavoritesScreen(
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            AsyncStateHandler(state) {
+            UiStateWrapper(state) {
                 if (it.dogImages.isEmpty()) {
                     EmptyScreen()
                 } else {

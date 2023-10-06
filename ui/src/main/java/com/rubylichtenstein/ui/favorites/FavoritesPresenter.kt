@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.rubylichtenstein.domain.images.DogImage
-import com.rubylichtenstein.ui.common.AsyncResult
-import com.rubylichtenstein.ui.common.asAsyncResult
+import com.rubylichtenstein.ui.common.UiState
+import com.rubylichtenstein.ui.common.asUiState
 import com.rubylichtenstein.ui.common.mapSuccess
 import kotlinx.coroutines.flow.Flow
 
@@ -30,16 +30,16 @@ sealed interface Event {
 fun FavoritesPresenter(
     events: Flow<Event>,
     favoriteImagesFlow: Flow<List<DogImage>>
-): AsyncResult<FavoritesModel> {
-    var favoriteImagesResult by remember { mutableStateOf<AsyncResult<List<DogImage>>>(AsyncResult.Loading) }
+): UiState<FavoritesModel> {
+    var favoriteImagesResult by remember { mutableStateOf<UiState<Collection<DogImage>>>(UiState.Loading) }
     var filteredBreeds by remember { mutableStateOf(emptySet<String>()) }
 
     LaunchedEffect(Unit) {
         favoriteImagesFlow
-            .asAsyncResult()
+            .asUiState()
             .collect { images ->
                 favoriteImagesResult = images
-                if (images is AsyncResult.Success) {
+                if (images is UiState.Success) {
                     val chipsLabels = images.data.map { it.breedName }.toSet()
                     filteredBreeds = filteredBreeds.intersect(chipsLabels)
                 }

@@ -3,8 +3,8 @@ package com.rubylichtenstein.ui.breeds
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rubylichtenstein.domain.breeds.GetBreedsUseCase
-import com.rubylichtenstein.ui.common.AsyncResult
-import com.rubylichtenstein.ui.common.asAsyncResult
+import com.rubylichtenstein.ui.common.UiState
+import com.rubylichtenstein.ui.common.asUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -16,10 +16,10 @@ class BreedsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val breedsState = getBreedsUseCase()
-        .asAsyncResult()
+        .asUiState()
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
-            AsyncResult.Loading
+            UiState.Loading
         )
 }

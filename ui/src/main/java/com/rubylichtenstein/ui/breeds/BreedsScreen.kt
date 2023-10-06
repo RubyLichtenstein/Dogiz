@@ -28,8 +28,8 @@ import androidx.navigation.NavController
 import com.rubylichtenstein.domain.breeds.BreedEntity
 import com.rubylichtenstein.domain.common.capitalizeWords
 import com.rubylichtenstein.ui.Screen
-import com.rubylichtenstein.ui.common.AsyncResult
-import com.rubylichtenstein.ui.common.AsyncStateHandler
+import com.rubylichtenstein.ui.common.UiStateWrapper
+import com.rubylichtenstein.ui.common.UiState
 
 @Composable
 fun BreedsScreen(
@@ -49,7 +49,7 @@ fun BreedsScreen(
 @ExperimentalMaterial3Api
 @Composable
 fun BreedsScreen(
-    breedListState: AsyncResult<List<BreedEntity>>,
+    breedListState: UiState<List<BreedEntity>>,
     navigateToDogImages: (BreedEntity) -> Unit
 ) {
     val scrollBehavior =
@@ -71,7 +71,7 @@ fun BreedsScreen(
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            AsyncStateHandler(breedListState) { data ->
+            UiStateWrapper(breedListState) { data ->
                 BreedList(
                     breeds = data,
                     onItemClick = navigateToDogImages
