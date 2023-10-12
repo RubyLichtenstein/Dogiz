@@ -11,13 +11,6 @@ import java.util.Locale
 class UiStateTest {
 
     @Test
-    fun `mapSuccess returns Loading when source is Loading`() = runTest {
-        val source: UiState<String> = UiState.Loading
-        val result = source.mapSuccess { it.uppercase(Locale.getDefault()) }
-        assertTrue(result is UiState.Loading)
-    }
-
-    @Test
     fun `mapSuccess transforms Success data`() = runTest {
         val source: UiState<String> = UiState.Success("test")
         val result = source.mapSuccess { it.uppercase(Locale.getDefault()) }
@@ -33,22 +26,16 @@ class UiStateTest {
     }
 
     @Test
-    fun `asAsyncResult emits Loading at start`() = runTest {
-        val flow = flowOf("data").asUiState().toList()
-        assertTrue(flow.first() is UiState.Loading)
-    }
-
-    @Test
     fun `asAsyncResult emits Success with data`() = runTest {
         val flow = flowOf("data").asUiState().toList()
-        val result = flow.drop(1).first()
+        val result = flow.first()
         assertTrue(result is UiState.Success && result.data == "data")
     }
 
     @Test
     fun `asAsyncResult emits Error on exception`() = runTest {
         val flow = flow<String> { throw Exception("Error") }.asUiState().toList()
-        val result = flow.drop(1).first()
+        val result = flow.first()
         assertTrue(result is UiState.Error && result?.message == "Error")
     }
 

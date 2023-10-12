@@ -22,25 +22,23 @@ sealed interface UiState<out T> {
 
 fun <T> Flow<T>.asUiState(
     errorMessage: String? = null
-): Flow<UiState<T>> {
-    return this
-        .map<T, UiState<T>> {
-            UiState.Success(it)
-        }
-        .catch { emit(UiState.Error(errorMessage ?: it.message)) }
-}
+): Flow<UiState<T>> =
+    map<T, UiState<T>> {
+        UiState.Success(it)
+    }.catch {
+        emit(UiState.Error(errorMessage ?: it.message))
+    }
 
 fun <T> Flow<List<T>>.asUiState(
     emptyMessage: String? = null,
     errorMessage: String? = null
-): Flow<UiState<List<T>>> {
-    return this
-        .map {
-            if (it.isEmpty()) {
-                UiState.Empty(emptyMessage)
-            } else {
-                UiState.Success(it)
-            }
+): Flow<UiState<List<T>>> =
+    map {
+        if (it.isEmpty()) {
+            UiState.Empty(emptyMessage)
+        } else {
+            UiState.Success(it)
         }
-        .catch { emit(UiState.Error(errorMessage ?: it.message)) }
-}
+    }.catch {
+        emit(UiState.Error(errorMessage ?: it.message))
+    }

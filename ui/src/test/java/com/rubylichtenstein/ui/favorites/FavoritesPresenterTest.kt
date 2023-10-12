@@ -46,34 +46,6 @@ class FavoritesPresenterTest {
         }
     }
 
-//    @Test
-//    fun `FavoritesPresenter returns empty dog images on non-existent breed selection`() = runTest {
-//        val breedToSelect = ChipInfo("Husky1", selected = true)
-//        val eventFlow = MutableSharedFlow<Event>()
-//        val favoriteImagesFlow = flowOf(
-//            listOf(
-//                DogImageEntity(
-//                    "Husky1",
-//                    "Husky",
-//                    true,
-//                    "husky",
-//                )
-//            )
-//        )
-//
-//        moleculeFlow(RecompositionMode.Immediate) {
-//            FavoritesPresenter(eventFlow, favoriteImagesFlow)
-//        }.test {
-//            eventFlow.emit(Event.ToggleSelectedBreed(breedToSelect))
-//            assertTrue(awaitItem() is AsyncResult.Loading)
-//            val result = awaitItem()
-//            println(result)
-//            assertTrue(result is AsyncResult.Success)
-//            assertTrue((result as AsyncResult.Success).data.dogImages.isEmpty())
-//            cancelAndIgnoreRemainingEvents()
-//        }
-//    }
-
     @Test
     fun `FavoritesPresenter returns success state with dog images`() = runTest {
         val eventFlow = MutableSharedFlow<Event>()
@@ -148,8 +120,8 @@ class FavoritesPresenterTest {
             FavoritesPresenter(eventFlow, favoriteImagesFlow)
         }.test {
             assertTrue(awaitItem() is UiState.Loading)
-            val result = awaitItem() as UiState.Success
-            assertTrue(result.data.dogImages.isEmpty())
+            //asser type is Empty
+            assertTrue(awaitItem() is UiState.Empty)
             cancel()
         }
     }

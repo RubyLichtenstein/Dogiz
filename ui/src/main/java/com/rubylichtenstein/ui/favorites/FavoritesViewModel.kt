@@ -37,7 +37,7 @@ class FavoritesViewModel @Inject constructor(
         it.size
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.WhileSubscribed(5_000),
         initialValue = 0
     )
 

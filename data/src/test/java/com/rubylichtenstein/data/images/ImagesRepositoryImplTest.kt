@@ -17,10 +17,10 @@ class ImagesRepositoryImplTest {
     class FakeDogBreedApi : BreedImagesApi {
 
         // Default behavior is to return a successful empty list.
-        var getBreedImagesMock: suspend (String) -> Result<List<String>> =
-            { breed -> Result.success(emptyList()) }
+        var getBreedImagesMock: suspend (String) -> List<String> =
+            { breed -> emptyList() }
 
-        override suspend fun getBreedImages(breed: String): Result<List<String>> {
+        override suspend fun getBreedImages(breed: String): List<String> {
             return getBreedImagesMock(breed)
         }
     }
@@ -60,7 +60,7 @@ class ImagesRepositoryImplTest {
     fun `getImagesByBreed fetches from remote when local is empty and stores locally`() = runTest {
         // Given
         fakeApi.getBreedImagesMock = { breed ->
-            Result.success(listOf("url1", "url2"))
+            listOf("url1", "url2")
         }
 
         // Act & Assert
@@ -78,7 +78,7 @@ class ImagesRepositoryImplTest {
     fun `getImagesByBreed updates local data when remote data is fetched`() = runTest {
         // Given
         fakeApi.getBreedImagesMock = { breed ->
-            Result.success(listOf("url3", "url4"))
+            listOf("url3", "url4")
         }
 
         val localData = DogImageDataEntity("breedName", "breedKey", false, "localUrl")
@@ -100,7 +100,7 @@ class ImagesRepositoryImplTest {
     fun `getImagesByBreed fetches from remote when local is empty`() = runTest {
         // Given
         fakeApi.getBreedImagesMock = { breed ->
-            Result.success(listOf("url5", "url6"))
+            listOf("url5", "url6")
         }
 
         // Act & Assert
@@ -117,7 +117,7 @@ class ImagesRepositoryImplTest {
         runTest {
             // Given
             fakeApi.getBreedImagesMock = { breed ->
-                Result.success(listOf("url7", "url8"))
+                listOf("url7", "url8")
             }
 
             val localData = DogImageDataEntity("breedName", "breedKey", false, "localUrl")
@@ -139,7 +139,7 @@ class ImagesRepositoryImplTest {
     fun `getImagesByBreed returns error when remote fetch fails`() = runTest {
         // Given
         fakeApi.getBreedImagesMock = { breed ->
-            Result.failure(Exception("API failed"))
+            error("API failed")
         }
 
         // Act & Assert

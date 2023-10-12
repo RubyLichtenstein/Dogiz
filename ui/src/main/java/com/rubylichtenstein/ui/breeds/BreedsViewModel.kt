@@ -19,7 +19,7 @@ class BreedsViewModel @Inject constructor(
         .asUiState()
         .stateIn(
             viewModelScope,
-            SharingStarted.Lazily,
+            SharingStarted.WhileSubscribed(5_000),
             UiState.Loading
         )
 }
